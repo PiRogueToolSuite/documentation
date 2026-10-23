@@ -11,11 +11,11 @@ const config = {
     v4: true,
   },
 
-  url: 'https://docs.pts-project.org',
+  url: 'https://doc.pts-project.org',
   baseUrl: '/',
 
   organizationName: 'PiRogueToolSuite',
-  projectName: 'docs',
+  projectName: 'doc',
   trailingSlash: false,
   onBrokenLinks: 'warn',
 
