@@ -1,0 +1,129 @@
+---
+sidebar_position: 1
+---
+
+# Sensitive Android APIs
+
+Android APIs that give access to sensitive data or capabilities, and how malicious apps abuse them. Look for them when [analyzing an Android app statically](/docs/explanation/investigations/static-analysis-of-android-apps).
+
+## Services and managers
+
+`AccessibilityService`: This API enables applications to assist users with disabilities by providing alternative interactions with the device. However, malicious applications can abuse this API to intercept user interactions, capturing sensitive information displayed on the screen or performing unauthorized actions. For instance, a malicious application could intercept banking credentials or personal messages by monitoring user interactions.
+
+`AccessibilityEvent`: This API provides information about events occurring on the device, such as screen changes, button presses, or text input. Malicious applications can exploit this API to monitor user activity, capture sensitive data, or inject malicious code into other applications. For example, a malicious application could monitor keystrokes to steal passwords or inject code into a legitimate application to gain control over the device.
+
+`ContactsContract`: This API provides access to the user's contacts, including names, phone numbers, and email addresses. Malicious applications can exploit this API to harvest contact information for spamming, phishing, or identity theft. For instance, a malicious application could collect contact details and sell them to spammers or use them for targeted phishing attacks.
+
+`LocationManager`: This API allows applications to access the user's location data, including GPS coordinates and network-based location. Malicious applications can abuse this API to track user movements, monitor their whereabouts, or sell location data to third parties. For example, a malicious application could track a user's movements to identify their home or workplace, potentially compromising their privacy and security.
+
+`SMSManager`: This API provides access to SMS messages, enabling applications to send and receive text messages. Malicious applications can exploit this API to intercept sensitive information, send spam messages, or incur unwanted charges. For instance, a malicious application could intercept two-factor authentication codes or send premium-rate SMS messages without user consent.
+
+`AudioRecord`: This API enables applications to record audio from the device's microphone. Malicious applications can misuse this API to eavesdrop on conversations, collect private audio recordings, or violate user privacy. For example, a malicious application could record private conversations or collect sensitive audio data for unauthorized purposes.
+
+`Camera`: This API allows applications to capture images and videos using the device's camera. Malicious applications can abuse this API to take pictures or record videos without user consent, potentially compromising privacy and security. For instance, a malicious application could secretly take pictures or record videos of the user or their surroundings, violating their privacy.
+
+`ExternalStorage`: This API provides access to files stored on external storage, such as SD cards. Malicious applications can exploit this API to steal sensitive data, modify files without authorization, or spread malware. For example, a malicious application could steal confidential documents, modify files to corrupt data, or spread malware to other devices.
+
+`TelephonyManager`: This API provides access to device identifiers and phone state information. Malicious applications can misuse this API to track user behavior, profile their activities, or link their device to other personal data. For instance, a malicious application could track app usage patterns, collect device identifiers for targeted advertising, or link the device to other personal information for profiling purposes.
+
+## API calls
+To investigate deeper, you can look at different calls to methods exposing sensitive information such as the phone number or SMS messages. Here's the list of Android Java methods that provide access to sensitive data:
+
+### Reading the IMEI
+The IMEI (International Mobile Equipment Identity) is a unique identifier for mobile devices. Accessing it can enable device tracking, profiling, and targeted advertising.
+
+Code example:
+```java
+TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+String imei = telephonyManager.getDeviceId();
+```
+
+### Reading the IMSI
+The IMSI (International Mobile Subscriber Identity) is a unique identifier for SIM cards. Accessing it can enable user identification, location tracking, and potential surveillance.
+
+Code example:
+```java
+TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+String imsi = telephonyManager.getSubscriberId();
+```
+
+### Reading the phone number
+Accessing the phone number can enable user identification, targeted advertising, and potential harassment or scams.
+
+Code example:
+```java
+TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+String phoneNumber = telephonyManager.getLine1Number();
+```
+
+### Retrieving SMS messages
+Accessing SMS messages can expose sensitive information, such as two-factor authentication codes, personal communications, or financial transactions.
+
+Code example:
+```java
+ContentResolver contentResolver = getContentResolver();
+Cursor cursor = contentResolver.query(Uri.parse("content://sms/inbox"), null, null, null, null);
+while (cursor.moveToNext()) {
+  String address = cursor.getString(cursor.getColumnIndex("address"));
+  String body = cursor.getString(cursor.getColumnIndex("body"));
+  // Process SMS message data
+}
+```
+
+### Retrieving SIM and carrier information
+Accessing SIM and carrier information can reveal user's location, network details, and potentially sensitive personal data.
+
+Code example:
+```java
+TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+String simOperator = telephonyManager.getSimOperator();
+String simCountryIso = telephonyManager.getSimCountryIso();
+String simSerialNumber = telephonyManager.getSimSerialNumber();
+```
+
+### Reading the Android Advertising ID
+The Android advertising ID is a unique identifier used for targeted advertising. Accessing it can enable user profiling and tracking across apps.
+
+Code example:
+```java
+AdvertisingIdClient.Info adInfo = AdvertisingIdClient.getAdvertisingIdInfo(this);
+String advertisingId = adInfo.getId();
+```
+
+### Getting precise location from GPS
+Accessing precise GPS location can enable user tracking, location-based profiling, and potential privacy violations.
+
+Code example:
+```java
+LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+LocationListener locationListener = new MyLocationListener();
+locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+```
+
+### Getting precise location from Wi-Fi networks
+Accessing precise location from Wi-Fi networks can reveal user's whereabouts, movement patterns, and potentially sensitive location data.
+
+Code example:
+```java
+LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+LocationListener locationListener = new MyLocationListener();
+locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+```
+
+### Getting precise location from cell towers
+Accessing precise location from cell towers can enable user tracking, location-based advertising, and potential privacy intrusions.
+
+Code example:
+```java
+TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+CellLocation cellLocation = telephonyManager.getCellLocation();
+```
+
+### Executing OS commands
+Executing arbitrary OS commands can lead to system compromise, data theft, or unauthorized access to sensitive resources.
+
+Code example:
+```java
+Runtime runtime = Runtime.getRuntime();
+Process process = runtime.exec("su");
+```

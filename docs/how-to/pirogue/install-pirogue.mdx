@@ -1,0 +1,36 @@
+---
+sidebar_position: 1
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import SetupPiRogueRPI from './partials/how-to-setup-pirogue-on-rpi.mdx';
+import SetupPiRogueMachine from './partials/installing-pirogue-on-your-computer.mdx';
+import SetupPiRogueVPN from './partials/installing-pirogue-vpn.mdx';
+
+
+# Install a PiRogue
+
+This guide shows how to install a PiRogue on a Raspberry Pi, on a computer with two network interfaces, or on a server used as a VPN. The setup you pick determines the [operating mode](/docs/explanation/pirogue/operating-modes) of the PiRogue. For a first, guided discovery, follow the tutorial [Your first PiRogue on a Raspberry Pi](/docs/tutorials/pirogue-on-a-raspberry-pi) instead.
+
+## Install it
+
+<Tabs>
+
+  <TabItem value="PiRogue-RPI" label="On a Raspberry Pi" default>
+ 
+  <SetupPiRogueRPI/>
+  </TabItem>
+  
+  <TabItem value="PiRogue-Machine" label="On a computer">
+   <SetupPiRogueMachine/>
+  </TabItem>
+
+  <TabItem value="PiRogue-VPN" label="On a server, as a VPN">
+   <SetupPiRogueVPN/>
+  </TabItem>
+</Tabs>
+
+## Next steps
+
+* Find the generated passwords and the address of the dashboard: [Default configuration](/docs/reference/pirogue/default-configuration)
+* Change them: [Configure a PiRogue](/docs/how-to/pirogue/configure-pirogue)

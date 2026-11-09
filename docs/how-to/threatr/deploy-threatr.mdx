@@ -1,0 +1,55 @@
+---
+sidebar_position: 1
+---
+
+
+# Deploy Threatr locally
+
+This guide shows how to run Threatr on its own, on a local machine, with Docker Compose. Threatr is also deployed along with Colander by both [Colander deployment methods](/docs/explanation/colander/deployment-options).
+
+:::caution[Security]
+
+This section describes the procedure to self-host Threatr locally. It must not
+be exposed to the Internet directly.
+
+:::
+
+## Requirements
+Docker and Docker Compose must be installed on the machine hosting Threatr.
+
+## Deploy Threatr
+###### 1. Download the Docker Compose file and the `.env`
+```bash
+wget https://raw.githubusercontent.com/PiRogueToolSuite/threatr/refs/heads/main/deployment/.env
+wget https://raw.githubusercontent.com/PiRogueToolSuite/threatr/refs/heads/main/deployment/threatr-local.yml
+```
+###### 2. Change the secrets
+Edit the `.env` file and replace the values of `DJANGO_SECRET_KEY` and `POSTGRES_PASSWORD` with a new randomly generated secret.
+
+###### 3. Start Threatr
+```bash
+docker compose -f threatr-local.yml up -d
+```
+
+###### 4. Create the admin user
+```bash
+docker compose -f threatr-local.yml run --rm threatr-local-front python manage.py createsuperuser --username admin
+```
+
+###### 5. Create a user and their API key
+See [Create a Threatr API key](/docs/how-to/threatr/create-an-api-key). The administration panel is served at `http://127.0.0.1:9080/admin`.
+
+###### 6. Configure integrations
+See [Connect Threatr to threat-intelligence vendors](/docs/how-to/threatr/connect-vendors).
+
+
+## Update Threatr
+```bash
+docker compose -f threatr-local.yml pull
+docker compose -f threatr-local.yml up -d
+```
+
+## Stop Threatr
+```bash
+docker compose -f threatr-local.yml stop
+```

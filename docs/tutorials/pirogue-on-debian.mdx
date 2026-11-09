@@ -1,0 +1,67 @@
+---
+sidebar_position: 2
+sidebar_label: Your first PiRogue on Debian
+---
+
+# Your first PiRogue on Debian
+
+In this tutorial, we will turn a fresh Debian 12 machine into a PiRogue, check that it runs, and open its dashboard. It takes about 10 minutes.
+
+## What you need
+
+* a machine with a fresh **Debian 12** installation, on `amd64` or `arm64`, with at least 4 GB of RAM, 40 GB of disk and Internet access. It can be a physical machine, a virtual machine or a Raspberry Pi
+* a computer from which you can connect to it with SSH
+
+The PiRogue changes the network configuration of the machine, so use one dedicated to this tutorial. A virtual machine with a single network interface is the simplest option: the PiRogue then runs as a VPN server.
+
+## Install the PiRogue
+
+Connect to the machine with SSH and run the following commands:
+
+```bash title="Install PiRogue on Debian 12"
+sudo apt-get update
+sudo apt-get dist-upgrade
+sudo apt-get install wget
+sudo wget -O /etc/apt/sources.list.d/pirogue.list https://pts-project.org/debian-12/pirogue.list
+sudo wget -O /etc/apt/trusted.gpg.d/pirogue.gpg   https://pts-project.org/debian-12/pirogue.gpg
+sudo apt-get update
+sudo apt-get install pirogue-base
+```
+
+When the installer asks whether non-superusers may capture network traffic, answer **Yes**.
+
+## Look at the configuration of your PiRogue
+
+Display the configuration that was generated during the installation:
+
+```bash
+pirogue-admin-client system get-configuration
+```
+
+Notice three lines in the output:
+
+* `SYSTEM_OPERATING_MODE` is the mode the PiRogue picked from the network interfaces of your machine. On a machine with a single interface, it is `wireguard`: the PiRogue runs as a VPN server
+* `DASHBOARD_PASSWORD` is the password of the dashboard
+* `EXTERNAL_ADDRESS` is the address on which the dashboard is served
+
+## Open the dashboard
+
+In the browser of your computer, open:
+
+```txt
+https://<EXTERNAL_ADDRESS>/dashboard
+```
+
+Your browser warns you about the certificate, because the PiRogue uses a self-signed one. For this tutorial, accept the warning and continue. Log in with the user `admin` and the `DASHBOARD_PASSWORD` you noted.
+
+You now see the dashboard of your PiRogue. It is still empty: no device is connected to it yet.
+
+## What you have learned
+
+You installed the PiRogue packages on Debian, read the configuration the PiRogue generated for itself, and opened its dashboard.
+
+To continue:
+
+* connect a phone and record its traffic in the tutorial [Capture and analyze the traffic of a device](/docs/tutorials/capture-and-analyze-traffic)
+* understand what happened during the installation: [Operating modes](/docs/explanation/pirogue/operating-modes)
+* learn what each panel of the dashboard shows: [Dashboard reference](/docs/reference/pirogue/dashboard)

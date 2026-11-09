@@ -1,0 +1,23 @@
+---
+sidebar_position: 12
+---
+
+
+# Changes in PiRogue 2.x
+
+Changes between PiRogue 1.x and PiRogue 2.x. To check the version of a PiRogue, see [Default configuration](/docs/reference/pirogue/default-configuration#version).
+
+## Changed features
+* Administration tool: `pirogue-admin-client`, see [Administration](/docs/explanation/pirogue/administration)
+* URL of the dashboard: `http://<PiRogue IP address>/dashboard`
+* WiFi and Dashboard default password: [retrieve them quickly](#default-generated-secrets)
+
+## New features
+* [Operating modes](/docs/explanation/pirogue/operating-modes): `VPN` (Wireguard), `Appliance`, `Access Point` (WiFi)
+* [Public accessibility](/docs/how-to/pirogue/configure-pirogue#make-the-pirogue-accessible-from-the-internet)
+
+## Default generated secrets
+The dashboard password, the Wi-Fi passphrase and the administration token are generated during the installation:
+* WiFi password : `pirogue-admin-client wifi get-configuration`
+* Dashboard password: `pirogue-admin-client dashboard get-configuration`
+* Remote administration token: `pirogue-admin-client access get-administration-token`

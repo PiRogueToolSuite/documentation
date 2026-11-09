@@ -1,0 +1,38 @@
+---
+sidebar_position: 15
+---
+
+
+import CaptionedImage from '@site/src/components/CaptionedImage';
+
+# Import knowledge into a case
+
+This guide shows how to import entities from a file into a case, with the **Import** workspace. Colander supports multiple data formats that can be directly imported into a case:
+* **JSON**, a Colander feed
+* **STIX2**, a STIX2 bundle
+* **MISP**, a MISP event
+* **CSV**
+
+Colander automatically merges imported data with the case entities. Check the documentation to know how Colander [converts data](https://pts-project.org/colander-data-converter/data_types/conversion_matrix.html) from [MISP](https://pts-project.org/colander-data-converter/data_types/misp.html) and [STIX2](https://pts-project.org/colander-data-converter/data_types/stix2.html).
+
+
+## Import a Colander feed, a STIX2 bundle or a MISP event
+By default, the **Import** workspace proposes to import a [Colander feed](/docs/how-to/colander/share-knowledge). Choose another format, such as MISP or STIX2, if needed.
+
+  <CaptionedImage src="/img/colander/import_knowledge/1.png" alt="Import a Colander feed" caption="Import a Colander feed" align="center"/>
+
+Select the entities to import, or import the whole file. The *Quick view* button opens the details of an entity.
+
+  <CaptionedImage src="/img/colander/import_knowledge/2.png" alt="Details of an entity" caption="Details of an entity" align="center"/>
+
+
+## Import a CSV file
+1. Choose the CSV file to load.
+2. Select the entity type, for example *Observable* or *Actor*.
+3. For each row, choose the entity subtype, for example *URL* or *Domain name*.
+4. For each column, choose the corresponding entity property, for example *Name* or *Description*.
+
+Any column data that does not match the Colander data model can be placed in the entity's *Extra attributes*.
+
+
+  <CaptionedImage src="/img/colander/import_knowledge/3.png" alt="Import a CSV file" caption="Import a CSV file" align="center"/>

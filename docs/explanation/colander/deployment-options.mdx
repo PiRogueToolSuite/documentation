@@ -1,0 +1,33 @@
+---
+sidebar_position: 2
+---
+
+# Choosing how to deploy Colander
+
+Colander is not a single program: it is a stack of services that work together, a web application, its workers, a database, an object storage for the artifacts, a search engine for the network traffic, a reverse proxy, and optionally Threatr, Mandolin, CyberChef and Playwright. The [Services](/docs/reference/colander/services) reference lists them all. Deploying Colander means running this whole stack, configured consistently.
+
+There are two supported ways to do it. Both are maintained in the same repository, [`colander-ansible`](https://github.com/PiRogueToolSuite/colander-ansible), and both run the same container images.
+
+## The Ansible playbooks
+
+The playbooks take care of the whole life of a production server. Run from your laptop, they install Docker in rootless mode on a fresh Debian server, generate every secret of the configuration and keep it in an encrypted vault, deploy the stack behind a reverse proxy with Let's Encrypt certificates, create the administrator accounts, and install the scripts used to back up and restore the data. The logs of every container go to `journald`, tagged so that tools such as `fail2ban` can use them.
+
+The price is a stricter setup: a dedicated Debian server with a public IP address, a user `colander`, an Ansible environment on your laptop, and a domain name with a DNS record per service.
+
+Choose them when you host Colander for a team, on a server reachable from the Internet, and want backups and a repeatable configuration without assembling them yourself.
+
+→ [Deploy Colander on a server with Ansible](/docs/how-to/colander/deploy-with-ansible)
+
+## Docker Compose with Colander quick deploy
+
+[Colander quick deploy](https://pts-project.org/colander-ansible/) is the `docker` folder of the same repository, packaged as an archive. It only needs Docker and Docker Compose, on any machine. One Compose file per component lets you run only what you need, for instance a Threatr for an existing Colander, or the whole stack at once. A development variant generates a self-signed certificate, which lets you run Colander, and connect PiRogues to it over HTTPS, where no public certificate can be obtained.
+
+The price is that you are in charge of everything around the stack: the server, its security, its backups and its exposure to the Internet.
+
+Choose it to try Colander, to run it on a machine you already manage, to deploy only some of the components, or to plug it into your own provisioning tools.
+
+→ [Deploy Colander with Docker Compose](/docs/how-to/colander/deploy-with-docker-compose)
+
+## What is not a deployment method
+
+The Colander source repository contains a `local.yml` Compose file. It builds the images from the source code and is meant for the developers of Colander: it is not a way to deploy Colander, for testing or for production.

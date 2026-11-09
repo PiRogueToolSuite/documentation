@@ -1,0 +1,116 @@
+---
+sidebar_position: 2
+sidebar_label: Deploy with Docker Compose
+---
+
+# Deploy Colander with Docker Compose
+
+This guide shows how to deploy Colander, or only some of its components, with Docker Compose, using the [**Colander quick deploy**](https://pts-project.org/colander-ansible/) package. The package is the `docker` folder of the [`colander-ansible`](https://github.com/PiRogueToolSuite/colander-ansible/tree/feat/compose-standalone) repository.
+
+Colander supports two deployment methods: Docker Compose with this package, and the [Ansible playbooks](/docs/how-to/colander/deploy-with-ansible). [Choosing how to deploy Colander](/docs/explanation/colander/deployment-options) explains the difference.
+
+## Requirements
+
+[Docker and Docker Compose](https://docs.docker.com/compose/install/) installed on the machine hosting Colander.
+
+## Download Colander quick deploy
+
+Download [`colander-quick-deploy.zip`](https://pts-project.org/colander-ansible/colander-quick-deploy.zip) and extract it:
+
+```shell title="Download and extract Colander quick deploy"
+curl -fsSLO https://pts-project.org/colander-ansible/colander-quick-deploy.zip
+unzip colander-quick-deploy.zip
+cd docker
+```
+
+Run all the following commands from the `docker` folder.
+
+## Bootstrap the configuration
+
+Most settings have safe defaults, but some secrets are required before the first start. Generate a minimal `.env` file containing randomly generated secrets:
+
+```shell title="Bootstrap the .env file"
+docker compose -f compose-init.yml up -d
+```
+
+To configure more, such as the domain names, the image versions or the volume paths, copy the settings you need from `.env.example` into your `.env` file. Every setting of `.env.example` is commented. See [Docker Compose deployment](/docs/reference/colander/docker-compose-deployment#configuration) for the main ones.
+
+## Start the components you need
+
+Each component has its own Compose file. Start only the one you need with `docker compose -f <file> up -d`:
+
+```shell title="Start Colander only"
+docker compose -f compose-colander.yml up -d
+```
+
+```shell title="Start Threatr only"
+docker compose -f compose-threatr.yml up -d
+```
+
+```shell title="Start Mandolin only"
+docker compose -f compose-mandolin.yml up -d
+```
+
+```shell title="Start CyberChef only"
+docker compose -f compose-cyberchef.yml up -d
+```
+
+To combine several components, give several `-f` arguments:
+
+```shell title="Start Colander and Threatr"
+docker compose -f compose-colander.yml -f compose-threatr.yml up -d
+```
+
+## Or start the whole stack
+
+`compose.yml` is the base file for production deployments. It starts the whole stack, Colander, Threatr, Mandolin, CyberChef and Playwright, and obtains certificates from Let's Encrypt:
+
+```shell title="Start the whole stack"
+docker compose up -d
+```
+
+Before exposing it to the Internet, review your `.env` file: the domain names of the services, the email address used for Let's Encrypt, and the addresses the reverse proxy listens on, which are bound to `127.0.0.1` by default.
+
+If you cannot obtain a valid Let's Encrypt certificate in your context, use `compose-dev.yml` instead. It overrides some of the services of `compose.yml`, generates a self-signed certificate in `./data/traefik/certs/self-signed/cert.pem`, and exposes the Traefik dashboard on `http://localhost:8080`:
+
+```shell title="Start the whole stack with a self-signed certificate"
+docker compose -f compose-dev.yml up -d
+```
+
+To let a PiRogue connect to this Colander over HTTPS, add the self-signed certificate to the trust store of the operating system of the PiRogue.
+
+## Access the services
+
+| Service | Local address | Hostname address |
+|---------|---------------|------------------|
+| Colander | [http://localhost:5000](http://localhost:5000) | `https://colander.local:4443` |
+| Threatr | [http://localhost:5001](http://localhost:5001) | `https://threatr.local:4443` |
+| Mandolin | [http://localhost:5002](http://localhost:5002) | `https://mandolin.local:4443` |
+| CyberChef | [http://localhost:5003](http://localhost:5003) | `https://cyberchef.local:4443` |
+| Traefik dashboard, `compose-dev.yml` only | [http://localhost:8080](http://localhost:8080) | `http://traefik.local:8080` |
+
+To use the hostname addresses, add the hostnames at the end of the line starting with `127.0.0.1` in the `/etc/hosts` file of the computer you browse from.
+
+## Create the administrator accounts
+
+Create the first administrator of Colander and, if you started it, of Threatr. Each command asks for a username, an email address and a password:
+
+```shell title="Create the administrator accounts"
+docker compose -f compose-dev.yml exec colander-front /entrypoint python manage.py createsuperuser
+docker compose -f compose-dev.yml exec threatr-front /entrypoint python manage.py createsuperuser
+```
+
+Use the same `-f` arguments as the ones you started the stack with. For instance, replace `-f compose-dev.yml` with nothing if you started it with `docker compose up -d`.
+
+## Stop the stack
+
+```shell title="Stop the stack"
+docker compose -f compose-dev.yml stop
+```
+
+Again, use the same `-f` arguments as the ones you started the stack with.
+
+## Next steps
+
+* [Connect Colander to Threatr](/docs/how-to/colander/connect-to-threatr)
+* [Create the accounts of your team](/docs/how-to/colander/manage-accounts)

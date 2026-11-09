@@ -1,0 +1,31 @@
+---
+sidebar_position: 1
+sidebar_label: What is Threatr?
+---
+
+
+import CaptionedImage from '@site/src/components/CaptionedImage';
+
+# What is Threatr?
+
+<div style={{textAlign: 'center', margin: '1.5rem 0'}}>
+  <img src="/img/logos/threatr.svg" alt="Threatr logo" style={{width: '120px', height: '120px'}} />
+</div>
+
+<CaptionedImage src="/img/threatr/overview/1.png" align="center"/>
+
+**Threatr** is a web-based threat-intelligence aggregation platform designed to unify and normalize data collected from multiple external security sources. It centralizes information from services such as **VirusTotal**, **OTX AlienVault**, **Shodan**, **Scarlet Shark**, and **MISP**, and exposes all aggregated intelligence through a simple [**REST API**](/docs/reference/threatr/rest-api).
+
+Threatr’s primary purpose is to simplify and speed up the way security teams access, correlate, and analyze threat indicators. Instead of manually consulting multiple tools, analysts can query Threatr once and retrieve a consolidated, normalized representation of Indicators of Compromise (IoCs), enriched metadata, and contextual relationships from all connected sources.
+
+Threatr enforces a [**well-defined, unified data model**](https://pts-project.org/colander-data-converter/data_types/threatr.html) that ensures consistent field names, types, and structures regardless of the originating provider. This unified schema allows seamless integration with SIEM, SOAR, and custom security automation workflows.
+
+Built for extensibility, Threatr supports additional data connectors and scalable deployments. Because it is API-driven, organizations can integrate Threatr directly into existing pipelines, dashboards, and incident response tooling.
+
+## Threatr and Colander
+
+Even though Threatr can be used on its own, through its REST API, it is designed to operate along with Colander. It acts as a bridge and a translator between Colander and the external services: it transforms the entities found on these services into a knowledge graph following the same codification as Colander, so that the results can be merged into a case. The *Investigate* workspace is the entry point in Colander to these results, see [Enrich a case with threat intelligence](/docs/how-to/colander/enrich-with-threatr).
+
+## Caching
+
+Threatr propagates a request to all the configured services and returns the aggregated entities, along with the knowledge graph linking them to the requested one. It stores the results in its own database and returns the stored data for later requests on the same observable, unless the user explicitly asks for a refresh. This spares the quotas of the external services, and keeps a request from being sent again to third parties every time an analyst opens the same observable.

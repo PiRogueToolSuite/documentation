@@ -1,0 +1,40 @@
+---
+sidebar_position: 15
+---
+
+# Build the PiRogue hardware
+
+This guide shows how to print the case of a Raspberry Pi-based PiRogue and assemble it with its HAT. The parts and the specifications are listed in [Hardware](/docs/reference/pirogue/hardware). If you don't want to build it yourself, [reach out to the PTS team](https://pts-project.org/contact/).
+
+## Print the case
+
+You need:
+
+* the [manufacturing files of the case](https://github.com/PiRogueToolSuite/pirogue-case/tree/main/v1.0_beta): either the 4 separate STL files, or the one containing the 4 parts ready to slice
+* a 3D printer
+* PLA or PETG
+
+Slice the files with the [3D printing parameters](/docs/reference/pirogue/hardware#3d-printing-parameters) and print them. A complete case prints in around 3 hours.
+
+## Get the HAT
+
+Have the HAT manufactured from its [KiCad project and manufacturing files](https://github.com/PiRogueToolSuite/pirogue-hat/tree/main/v1.0_beta), with the parts listed in [Manufacturing files](/docs/reference/pirogue/hardware#manufacturing-files).
+
+## Assemble the PiRogue
+
+Gather the [assembly parts](/docs/reference/pirogue/hardware#assembly-parts), then:
+
+* Secure the fan in place with 4 M2.5 12mm bolts and 4 M2.5 nuts.
+* Place the 4 standoffs between the Raspberry Pi and the HAT.
+
+Follow the video for the whole assembly:
+
+<iframe
+  width="100%"
+  height="400"
+  src="https://www.youtube.com/embed/WDbZ6ZYWYD4"
+  title="Pirogue's case assembly tutorial"
+  frameBorder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowFullScreen
+/>

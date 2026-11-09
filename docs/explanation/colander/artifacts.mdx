@@ -1,0 +1,31 @@
+---
+sidebar_position: 6
+---
+
+# Artifacts and their analysis
+
+An artifact is a file attached to a case: a device backup, a network capture, a sample, a screenshot. Artifacts are the evidence of an investigation, so Colander handles them with two concerns in mind: proving that a file has not been altered since it was collected, and learning as much as possible from it without leaking it. To upload one, see [Add artifacts to a case](/docs/how-to/colander/add-artifacts).
+
+## Hashing and signing
+As soon as a file is uploaded, Colander computes its mimetype and its MD5, SHA1 and SHA256 hashes. It then computes a detached digital signature of the file with the private key of the case the artifact belongs to.
+
+Together, the hash and the signature let anyone who receives the artifact later check that the file is exactly the one that was uploaded, and that it comes from this case. This is what makes an artifact usable as evidence, see [Chain of custody](/docs/explanation/colander/chain-of-custody). To check an artifact, see [Verify the integrity of an artifact](/docs/how-to/colander/verify-artifact-integrity).
+
+
+## Offline analysis
+Once hashed and signed, every uploaded artifact is automatically submitted to [Mandolin](/docs/explanation/mandolin/what-is-mandolin), the micro-service in charge of analyzing files. The analysis is **offline**: files are processed by your own Colander deployment and are never sent to a third-party service, which preserves the confidentiality of your case.
+
+The analysis runs in the background, so results can take a few moments to appear after the upload. They are shown in the details of the artifact:
+
+* **Content and metadata extraction**: the text contained in the file is extracted with [Apache Tika](https://tika.apache.org), for over a thousand file types (documents, spreadsheets, PDFs, emails, etc.), and displayed in the artifact details. When the file embeds GPS coordinates (for instance a photo), the location is displayed on a map.
+* **Thumbnails**: a thumbnail is generated for pictures.
+
+:::note[Antivirus scan]
+
+[Mandolin](/docs/explanation/mandolin/what-is-mandolin) can also scan files with ClamAV and apply Yara rules. The integration of the antivirus scan in Colander, which flags infected artifacts and displays the name of the detected threat, is under development at the time of writing.
+
+:::
+
+{/* TODO(verify): the ClamAV integration lives on Colander's `next` branch and is not part of release v1.4.0; the Colander Ansible stack does not deploy ClamAV yet. Confirm the release that ships it, then remove the note above and document the "Malicious"/"Clean" verdict and the `is_malicious` attribute. */}
+
+Mandolin is deployed by default with Colander. With the Ansible playbooks, it can be disabled with the setting `use_mandolin`, see [Per-host customization](/docs/reference/colander/ansible-deployment#per-host-customization).

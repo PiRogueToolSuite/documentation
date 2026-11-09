@@ -1,0 +1,45 @@
+---
+sidebar_position: 7
+---
+
+# Capture network traffic
+
+This guide shows how to record the traffic of the devices connected to a PiRogue into a **PCAP** file, to keep it longer than the 5 days of the [dashboard](/docs/reference/pirogue/dashboard) or to open it in a tool like [Wireshark](https://www.wireshark.org/). A PCAP (Packet Capture) file stores the raw network packets with their headers, payload and timestamps.
+
+:::tip[First time?]
+
+The tutorial [Capture and analyze the traffic of a device](/docs/tutorials/capture-and-analyze-traffic) walks you through a first capture.
+
+:::
+
+## Start a capture
+Connect to your PiRogue and run:
+
+```bash title="Record the traffic of the Wi-Fi network into a file"
+sudo tcpdump -i wlan0 -w $(date +%Y%m%d%H%M)_capture.pcap
+```
+
+Press `Ctrl + C` to stop. The file is named after the date and time of the start, for example `202609251430_capture.pcap`.
+
+| Part | Meaning |
+|------|---------|
+| `tcpdump` | The tool that records network packets |
+| `-i wlan0` | The interface to listen to: the Wi-Fi interface of the PiRogue, the one your device is connected to |
+| `-w <file>` | Write the packets to this file, in PCAP format |
+| `$(date +%Y%m%d%H%M)` | Inserts the current date and time in the file name, so captures never overwrite each other |
+
+:::note[Which interface?]
+
+`wlan0` applies to a PiRogue in access point mode. In other modes, list your interfaces with `ip -br link` and pick the one the analyzed device uses.
+
+:::
+
+## Get the file on your computer
+```bash title="Run on your computer"
+scp pi@<PiRogue IP address>:~/202609251430_capture.pcap .
+```
+
+Not sure how to find the IP address? See [Useful commands](/docs/how-to/pirogue/connect-to-a-pirogue#find-the-ip-address-of-your-pirogue).
+
+## Analyze it
+Open the PCAP file with Wireshark. To decrypt the TLS traffic of an Android app, see [Intercept and decrypt the TLS traffic of an app](/docs/how-to/pirogue/intercept-tls-traffic).

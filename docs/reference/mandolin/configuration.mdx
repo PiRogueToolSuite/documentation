@@ -1,0 +1,30 @@
+---
+sidebar_position: 2
+---
+
+# Configuration
+
+## Mandolin settings
+
+Environment variables of the `mandolin` service:
+
+| Environment variable | Description |
+|----------------------|-------------|
+| `TIKA_URL` | Address of the Apache Tika server. |
+| `CLAMAV_URL` | Address of the ClamAV server, **without a trailing slash**. |
+| `MAX_FILE_SIZE` | Maximum size in bytes of the files that can be analyzed. Default: `250000000` (250 MB). |
+
+:::caution
+
+Do not add a trailing slash to `CLAMAV_URL`. Mandolin appends `/v2/scan` to it, and the resulting `//v2/scan` is redirected by ClamAV, which makes every antivirus scan fail with `success: false` and an empty error.
+
+:::
+
+## Colander settings
+
+Environment variables of Colander related to Mandolin:
+
+| Environment variable | Description |
+|----------------------|-------------|
+| `USE_MANDOLIN` | Enables the analysis of artifacts. Default: `True`. With the Ansible playbooks, set with `use_mandolin`, see [Per-host customization](/docs/reference/colander/ansible-deployment#per-host-customization). |
+| `MANDOLIN_BASE_URL` | Address of Mandolin. Default: `http://mandolin:8000`. |

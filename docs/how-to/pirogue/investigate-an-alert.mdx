@@ -1,0 +1,16 @@
+---
+sidebar_position: 10
+---
+
+# Find the rule behind an alert
+
+This guide shows how to find the Suricata rule that raised an alert in the [dashboard](/docs/reference/pirogue/dashboard), to understand exactly what triggered it, or why it is a false positive.
+
+1. Note the **signature** (name) of the alert in the dashboard, or the domain name or IP address involved.
+2. Search the rules file on your PiRogue:
+   ```bash
+   grep -i "maw.re" /var/lib/suricata/rules/suricata.rules
+   ```
+3. Read the `header` and `options` of the matching rule to understand exactly what triggered it. If the alert is a false positive, this tells you why.
+
+The parts of a rule are described in [Suricata rules](/docs/reference/pirogue/suricata-rules#anatomy-of-a-rule).

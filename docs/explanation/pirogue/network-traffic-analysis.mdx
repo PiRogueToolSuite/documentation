@@ -1,0 +1,66 @@
+---
+sidebar_position: 5
+---
+
+# Network traffic analysis
+
+The PiRogue analyzes, continuously and automatically, the network traffic of every device connected to it. Nothing has to be started: the results appear in the [dashboard](/docs/reference/pirogue/dashboard) within minutes. This page explains why the traffic is analyzed on a separate network, what the PiRogue can find in it, and what it cannot.
+
+## Why a separate network
+
+The PiRogue works like the router of your Internet provider: it routes the traffic between the devices connected to it and the Internet. But it creates a network of its own, separate from the rest of your network, in your lab, at home or in a hotel room.
+
+This has two benefits when analyzing a device that may be compromised. First, the device cannot see the other devices of your network: malicious software often tries to spread to the devices on the same network, and the isolation keeps it away from them. Second, the PiRogue only sees the traffic of the analyzed device, without the noise of the other devices, which makes the analysis much easier.
+
+How the devices reach this network depends on the [operating mode](/docs/explanation/pirogue/operating-modes) of the PiRogue.
+
+## Two complementary techniques
+
+| Technique | Tool | What it tells you |
+|-----------|------|-------------------|
+| **Deep Packet Inspection** | [NFStream](https://www.nfstream.org/) | *Who talks to whom*: which application, which server, how much data |
+| **Rule-based threat detection** | [Suricata](https://suricata.io/) | *Is it known to be malicious?* Raises an alert when the traffic matches a known threat |
+
+### Deep Packet Inspection
+
+DPI looks beyond the addresses of a packet. For every network flow, NFStream determines the source and destination, the ports, the protocol, the application involved (even when the traffic is encrypted with TLS) and the domain name of the server. This makes patterns and anomalies visible: an unknown app contacting a server in a country you did not expect, an unusual volume of data sent at night…
+
+### Threat detection
+
+An intrusion detection system (IDS) compares the traffic against a database of known threats, called *signatures* or *rules*, and raises an **alert** on a match. Suricata is the IDS of the PiRogue. It runs in passive mode: it observes and reports, it never blocks traffic.
+
+The PiRogue comes with rules from [ProofPoint Emerging Threats Open](https://community.emergingthreats.net/t/frequently-asked-questions/56) and [Echap](https://github.com/AssoEchap/stalkerware-indicators), refreshed every day. How to read a rule is described in [Suricata rules](/docs/reference/pirogue/suricata-rules).
+
+Suricata needs memory to hold its rules. It is automatically disabled on devices with less than 2.5 GB of RAM.
+
+## What the tools cannot tell you
+
+Suricata only detects threats that are already known. An empty alert list does not prove that a device is clean. And if the device itself may be compromised, a conclusion produced by a tool alone is not enough: the traffic has to be looked at with the context of the person using the device in mind.
+
+What counts as suspicious depends on this context and on the threat model. A journalist based in Colombia whose phone regularly talks to a server in a country they have no link with has a reason to be concerned; the same traffic may be perfectly normal for someone else. The flows of the dashboard and a [capture of the traffic](/docs/how-to/pirogue/capture-network-traffic) are the material for this analysis.
+
+## Why captures last several days
+
+Spyware and other malware try to hide their activity. Some only contact their servers once or twice a day. A capture of a few minutes is likely to miss them; a capture of a few days, while the device is used as usual, gives a much better chance of recording their communications. The amount of traffic recorded in a few days is large, which is why the analysis focuses on filtering out the legitimate traffic to find what looks strange.
+
+## A refresher on networking concepts
+
+A few concepts help to read network traffic:
+
+**DNS (Domain Name System)** translates human-readable domain names into IP addresses. When you type `pts-project.org` in your browser, a DNS query asks for the IP address of this domain. DNS queries are often the first clue of what a device talks to.
+
+**TCP (Transmission Control Protocol)** is a reliable communication protocol: it establishes a connection between two devices, breaks the data into segments, and retransmits the lost ones.
+
+The **OSI model (Open Systems Interconnection)** divides networking into seven layers, each handling specific tasks:
+
+* **Application layer**: user interactions and applications
+* **Presentation layer**: encoding and decoding of the data
+* **Session layer**: communication sessions between devices
+* **Transport layer**: reliable delivery of the data, for instance with TCP
+* **Network layer**: routing of the packets across networks
+* **Data link layer**: transfer of the data between nodes of the same network
+* **Physical layer**: transmission of the raw bits over a physical medium
+
+## Getting help
+
+Interpreting network traffic takes experience. People in vulnerable situations, including journalists, human rights defenders, activists targeted by governments and victims of gender-based violence, should seek help from experts, who can analyze a capture and provide guidance: [AccessNow](https://www.accessnow.org/help/), [Amnesty International](https://www.amnesty.org), [CiviCERT](https://www.civicert.org/help/) or [Human Rights Watch](https://www.hrw.org).

@@ -1,0 +1,108 @@
+---
+sidebar_position: 7
+sidebar_label: Try Mandolin on your computer
+---
+
+# Try Mandolin on your computer
+
+In this tutorial, we will run Mandolin locally and use it to extract the content of a file, scan it with an antivirus and match it against a Yara rule.
+
+## What you need
+
+Docker with Docker Compose. Allow about 2 GB of disk space and a minute for the antivirus signatures to load.
+
+## Start Mandolin
+
+Copy and paste the following block in a terminal. It creates the configuration and starts Mandolin with its two companion services, Apache Tika and ClamAV.
+
+```bash title="Deploy Mandolin"
+mkdir -p mandolin && cd mandolin
+cat > docker-compose.yml <<'EOF'
+services:
+  tika:
+    image: apache/tika:3.0.0.0-full
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "wget", "-O", "/dev/null", "http://localhost:9998/tika" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+  clamav:
+    mem_reservation: 262144000
+    mem_limit: 1048576000
+    image: ajilaag/clamav-rest
+    healthcheck:
+      test: [ "CMD", "wget", "-O", "/dev/null", "http://localhost:9000/" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+  mandolin:
+    image: ghcr.io/piroguetoolsuite/mandolin:main
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8888:8000"
+    depends_on:
+      clamav:
+        condition: service_healthy
+      tika:
+        condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "wget", "-O", "/dev/null", "http://localhost:8000/" ]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+    environment:
+      - TIKA_URL=http://tika:9998/
+      - CLAMAV_URL=http://clamav:9000
+      - MAX_FILE_SIZE=250000000
+EOF
+docker compose up -d --wait
+```
+
+## Analyze your first file
+Mandolin answers on `http://127.0.0.1:8888`. Create a small text file and a Yara rule, then analyze the file three times:
+
+```bash
+echo "Hello from the PiRogue Tool Suite" > hello.txt
+printf 'rule pts { strings: $a = "PiRogue" condition: $a }\n' > rules.yar
+
+# Extract the content and metadata
+curl -s -X POST http://127.0.0.1:8888/analyzer/tika -F "file=@hello.txt"
+
+# Scan with the antivirus
+curl -s -X POST http://127.0.0.1:8888/analyzer/clamav -F "file=@hello.txt"
+
+# Apply a Yara rule
+curl -s -X POST http://127.0.0.1:8888/analyzer/yara -F "file=@hello.txt" -F "rules=<rules.yar"
+```
+
+Each answer is a JSON document: the first one contains the text of the file, the second one `"infected": false`, and the third one the rule `pts` that matched the word `PiRogue`.
+
+## Detect a test virus
+Now make the antivirus detect something. Scan the harmless [EICAR test file](https://www.eicar.org/download-anti-malware-testfile/), which every antivirus recognizes:
+
+```bash
+printf '%s' 'X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*' > eicar.txt
+curl -s -X POST http://127.0.0.1:8888/analyzer/clamav -F "file=@eicar.txt"
+```
+
+The answer contains `"infected": true` and the name `Eicar-Test-Signature`.
+
+## Stop Mandolin
+
+To stop Mandolin, run `docker compose stop`. To remove it, run `docker compose down`.
+
+## What you have learned
+
+You ran Mandolin and used its three analyzers: content extraction with Apache Tika, antivirus scan with ClamAV and pattern matching with Yara.
+
+To continue:
+
+* see all the operations and their responses: [Mandolin REST API](/docs/reference/mandolin/rest-api)
+* understand how Colander uses Mandolin: [What is Mandolin?](/docs/explanation/mandolin/what-is-mandolin)
+
+:::caution[Security]
+
+Mandolin has no authentication and processes untrusted files. The block above only publishes it on `127.0.0.1`. Do not expose it to the Internet.
+
+:::

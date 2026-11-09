@@ -1,0 +1,15 @@
+---
+sidebar_position: 8
+---
+
+# Case archive
+
+An archive is a ZIP file containing everything needed to recreate a case in Colander. It is named after the case and the date of the export, for example `Name of my case - 2025-11-27T18_36+00_00.zip`. To create or import one, see [Export and import a case](/docs/how-to/colander/export-and-import-a-case).
+
+| File | Description |
+|------|-------------|
+| `manifest.json` | Date of the export and list of the files contained in the archive. An archive without a manifest is rejected at import. |
+| `data.json` | The case itself. |
+| `<Type>/<id>/data.json` | One folder per entity (actors, artifacts, devices, observables, events, etc.) and per relation, with its data. |
+| `<Type>/<id>/file.<ext>` | The file of an artifact. |
+| `<Type>/<id>/thumbnail.png` | The thumbnail of an entity, when it has one. |

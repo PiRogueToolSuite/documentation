@@ -1,0 +1,42 @@
+---
+sidebar_position: 7
+---
+
+# Feeds
+
+A feed serves the knowledge of a case at a URL protected by a secret. To create one, see [Share knowledge with feeds](/docs/how-to/colander/share-knowledge). Colander documents how it [converts data](https://pts-project.org/colander-data-converter/data_types/conversion_matrix.html) to [MISP](https://pts-project.org/colander-data-converter/data_types/misp.html) and [STIX2](https://pts-project.org/colander-data-converter/data_types/stix2.html).
+
+## Types of feeds
+
+| Type | Content | Confidentiality filter |
+|------|---------|------------------------|
+| Entity feed | The selected types of entities of the case | Entities above the selected TLP level are not shared |
+| Detection rule feed | The selected types of detection rules, combined into a single text file | Rules above the selected TLP level are not shared |
+| Template feed | The output of a user-defined [Jinja](https://jinja.palletsprojects.com/en/stable/) template, rendered in a sandbox. The variable `feed` contains all the entities of the case, see [the data structure](https://pts-project.org/colander-data-converter/data_types/colander.html) | **None**: Colander does not filter entities on their confidentiality level |
+
+Feeds never disclose:
+
+* the content of the artifacts, the underlying files
+* the private key of the case, used to sign the artifacts
+
+## Formats
+
+The `format` query parameter of an entity feed selects its format:
+
+| Format | Content |
+|--------|---------|
+| JSON | A Colander feed |
+| STIX2 | A STIX2 bundle |
+| MISP | A MISP event. Requires your MISP organization name (`Orgc`) and its UUID (`Orgc UUID`) to be set. |
+| CSV | A CSV file |
+| dot | A Graphviz graph |
+| Mermaid | A Mermaid diagram |
+
+## Authentication
+
+Feeds are protected with a secret, a random string by default. Provide it in either:
+
+* the `secret` query parameter: `/feed/entities/9f351661-299a-4e83-9c44-60ece9478d50?secret=tiq4vf00xrjn38dw`
+* the `X-Colander-Feed` HTTP header: `X-Colander-Feed: Secret tiq4vf00xrjn38dw`
+
+Changing the secret of a feed blocks the access with the previous secret.

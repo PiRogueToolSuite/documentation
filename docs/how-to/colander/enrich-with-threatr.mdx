@@ -1,0 +1,63 @@
+---
+sidebar_position: 14
+---
+
+
+import CaptionedImage from '@site/src/components/CaptionedImage';
+
+# Enrich a case with threat intelligence
+
+This guide shows how to use the *Investigate* workspace to look up an observable in external services, such as VirusTotal, MISP or OTX Alien Vault, and import the results into your case. Colander queries these services through [Threatr](/docs/explanation/threatr/what-is-threatr), which must be [connected to Colander](/docs/how-to/colander/connect-to-threatr) and [to the vendors](/docs/how-to/threatr/connect-vendors). The types of observables Threatr can look up are listed in the [Threatr reference](/docs/reference/threatr/rest-api#supported-observable-types).
+
+## Search for an observable
+Open the *Investigate* workspace. Select the type of the observable and type its value. In the example below, we want to retrieve information about the *domain name* `sharefilesonline.live`.
+
+  <CaptionedImage src="/img/colander/external_sources/search.png" alt="Investigate search form" caption="Investigate search form" align="center"/>
+
+Threatr returns the results it already stored for this observable. To query the vendors again, check *Update results from vendors.*
+
+## Read the results
+Once the results are available, Colander shows details retrieved about the requested observable and a summary of the results in the form of a knowledge graph.
+
+  <CaptionedImage src="/img/colander/external_sources/summary.png" alt="Overview of the results" caption="Overview of the results" align="center"/>
+
+The next section contains the list of all the observables that are related to the requested one. From this list, you can either pivot on a specific observable or add it to your current case.
+
+  <CaptionedImage src="/img/colander/external_sources/observables.png" alt="List of the related observables" caption="List of the related observables" align="center"/>
+
+The last section contains the list of the events involving the requested observables. Those events can be detections, passive DNS resolutions, etc. From this list, you can import events directly into your current case.
+
+  <CaptionedImage src="/img/colander/external_sources/events.png" alt="List of the events" caption="List of the events" align="center"/>
+
+## Enrich an observable of your case
+Instead of using the search form, you can jump into the *Investigate* workspace directly from an existing observable by clicking on the button *Investigate* accessible in the details of the observable.
+
+  <CaptionedImage src="/img/colander/external_sources/observable-1.png" alt="A domain name we need information about" caption="A domain name we need information about" align="center"/>
+
+Then, in the list of observable, the first one will always corresponds to the requested one. If you add it to your case, Colander will automatically merge the information already specified with the ones coming from the external services.
+
+  <CaptionedImage src="/img/colander/external_sources/observable-2.png" alt="A domain name with external information added" caption="A domain name with external information added" align="center"/>
+
+## Import observables
+When you import observables from the *Investigate* workspace to your current case, Colander will automatically merge the knowledge graph representing the results from the external services with your existing knowledge graph. As an example, let's imagine that your current case only contains one observable `sharefilesonline.live`, your knowledge graph contains only one node.
+
+From the *Investigate* workspace, you add some observables, your knowledge graph now contains all the imported observables.
+
+  <CaptionedImage src="/img/colander/external_sources/import-1.png" alt="Import observables" caption="Import observables" align="center"/>
+
+Your knowledge graph now contains all the imported observables.
+
+  <CaptionedImage src="/img/colander/external_sources/import-2.png" alt="Knowledge graph containing the imported observables" caption="Knowledge graph containing the imported observables" align="center"/>
+
+## Import events
+From the *Investigate* workspace, you can also import events into your case.
+
+  <CaptionedImage src="/img/colander/external_sources/import-3.png" alt="Import events" caption="Import events" align="center"/>
+
+Your knowledge graph now contains the events you just imported.
+
+  <CaptionedImage src="/img/colander/external_sources/import-4.png" alt="Knowledge graph containing the imported events" caption="Knowledge graph containing the imported events" align="center"/>
+
+Now, in the details of the `sharefilesonline.live` observable, you will find the list of the related entities and the timeline containing the information you imported.
+
+  <CaptionedImage src="/img/colander/external_sources/details.png" alt="Details of the observable" caption="Details of the observable" align="center"/>

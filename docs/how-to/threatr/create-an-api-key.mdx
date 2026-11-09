@@ -1,0 +1,16 @@
+---
+sidebar_position: 2
+---
+
+# Create a Threatr API key
+
+This guide shows how to create a user and an API key to query the [Threatr REST API](/docs/reference/threatr/rest-api). To give Colander access to Threatr, follow [Connect Colander to Threatr](/docs/how-to/colander/connect-to-threatr) instead.
+
+1. Open the Threatr administration panel:
+   * deployed [with Ansible](/docs/how-to/colander/deploy-with-ansible): `${threatr_base_url}/${threatr_django_admin_url}`, with the values of your configuration vault
+   * deployed [with Docker Compose](/docs/how-to/colander/deploy-with-docker-compose): `http://localhost:5001/admin/`
+   * [deployed locally](/docs/how-to/threatr/deploy-threatr): `http://127.0.0.1:9080/admin`
+2. Go to the **Users** menu and create a new regular user.
+3. Go to the **Tokens** menu and generate a new API key for this user.
+
+Send the key in the `Authorization` header of your requests: `Authorization: Token <API key>`.

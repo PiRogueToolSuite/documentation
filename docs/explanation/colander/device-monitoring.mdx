@@ -1,0 +1,25 @@
+---
+sidebar_position: 8
+---
+
+# Device monitoring
+
+People at risk rarely have a PiRogue at hand, and the organizations helping them are often far away. Device monitoring closes this gap: an organization lends the person a PiRogue running as an [emergency VPN server](/docs/explanation/pirogue/operating-modes), and follows the network traffic of the person's device from a Colander case, without ever touching the device.
+
+## How it works
+
+1. You create a *monitoring* in a case: which [device](/docs/reference/colander/entity-types#devices) is monitored, with which PiRogue and for how long.
+2. The person connects the device to the PiRogue, for instance with the WireGuard application by scanning a QR code.
+3. The traffic of the device goes through the PiRogue, which analyzes it.
+4. The PiRogue [collects](https://pts-project.org/mongoose/) the network flows and Suricata alerts, enriches them and sends them to Colander.
+5. Flows and alerts are displayed in the monitoring and attached to your case.
+
+When the monitoring ends, the PiRogue stops sending events to Colander.
+
+## Why the PiRogue sends events to Colander
+
+The PiRogue analyzes the traffic itself, with the same [deep packet inspection and Suricata rules](/docs/explanation/pirogue/network-traffic-analysis) as in its dashboard, and sends the results of this analysis, the network flows and the alerts, to Colander. This is why Colander must be reachable from the PiRogue. The flows and the alerts are linked through their [Community ID](https://github.com/corelight/community-id-spec), so that each alert is displayed next to the flow it was raised for.
+
+A monitoring is limited in time, between 1 and 14 days, and stops on its own at the end of this period. An IP filter, set automatically to the address of the VPN peer of the device, makes sure only the traffic of the monitored device ends up in the case.
+
+To set up a monitoring, see [Monitor a device remotely](/docs/how-to/colander/monitor-a-device).

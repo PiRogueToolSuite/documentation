@@ -19,7 +19,7 @@ function HomepageHeader() {
             <div className={styles.buttons}>
               <Link
                 className="button button--secondary button--lg"
-                to="/docs/PiRogue-ToolSuite/overview">
+                to="/docs">
                 Get Started →
               </Link>
             </div>
@@ -70,19 +70,19 @@ export default function Home() {
               <ToolCard
                 title="PiRogue"
                 description="Network router for capturing and analysing mobile device traffic in real-time."
-                href="/docs/PiRogue/overview"
+                href="/docs/explanation/pirogue/what-is-a-pirogue"
                 logo="/img/logos/pirogue.svg"
               />
               <ToolCard
                 title="Colander"
                 description="Case and digital investigation platform to manage evidence, knowledge, and team collaboration."
-                href="/docs/Colander/overview"
+                href="/docs/explanation/colander/what-is-colander"
                 logo="/img/logos/colander.svg"
               />
               <ToolCard
                 title="Threatr"
                 description="Threat intelligence platform powering Colander's external source lookups via VirusTotal, OTX, and more."
-                href="/docs/Threatr/overview"
+                href="/docs/explanation/threatr/what-is-threatr"
                 logo="/img/logos/threatr.svg"
               />
             </div>
@@ -90,7 +90,7 @@ export default function Home() {
               <ToolCard
                 title="Mandolin"
                 description="File analysis micro-service to extract content, scan with antivirus and apply Yara rules, offline."
-                href="/docs/Mandolin/overview"
+                href="/docs/explanation/mandolin/what-is-mandolin"
                 logo="/img/logos/mandolin-logo.svg"
               />
               <ToolCard

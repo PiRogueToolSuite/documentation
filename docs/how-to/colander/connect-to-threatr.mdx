@@ -1,0 +1,47 @@
+---
+sidebar_position: 3
+---
+
+# Connect Colander to Threatr
+
+This guide shows how to let Colander query [Threatr](/docs/explanation/threatr/what-is-threatr), so that analysts can [enrich their cases](/docs/how-to/colander/enrich-with-threatr) with threat intelligence. Colander authenticates to Threatr with the API key of a dedicated Threatr user.
+
+## Prerequisites
+
+* Colander and Threatr deployed with the [Ansible playbooks](/docs/how-to/colander/deploy-with-ansible) or with [Docker Compose](/docs/how-to/colander/deploy-with-docker-compose)
+* an administrator account on both
+
+## Find the administration panels
+
+| Deployment | Colander administration panel | Threatr administration panel |
+|------------|-------------------------------|------------------------------|
+| Ansible | `${colander_base_url}/${colander_django_admin_url}` | `${threatr_base_url}/${threatr_django_admin_url}` |
+| Docker Compose | `http://localhost:5000/admin/` | `http://localhost:5001/admin/` |
+
+With Ansible, the administration panels are served at random paths: replace the variables with the values of your [configuration vault](/docs/reference/colander/ansible-deployment#configuration-vault). The administrator accounts are the `admin` users, with the passwords `colander_admin_password` and `threatr_admin_password` of the vault.
+
+## Create a Threatr user for Colander
+
+1. Open the Threatr administration panel.
+2. Go to the **Users** menu and create a new regular user, for instance `colander-user`.
+
+## Generate its API key
+
+1. Stay in the Threatr administration panel.
+2. Go to the **Tokens** menu and generate a new API key for the user you created.
+3. Copy the key.
+
+## Give the API key to Colander
+
+1. Open the Colander administration panel.
+2. Go to the **Backend Credentials** menu and create a new entry with:
+   * **Backend identifier**: `threatr`
+   * **Credentials**:
+     ```json
+     {
+       "api_key": "your Threatr API key"
+     }
+     ```
+3. Save the entry.
+
+The *Investigate* workspace of Colander now returns results from Threatr. Threatr itself only returns data from the vendors it is connected to: [connect Threatr to threat-intelligence vendors](/docs/how-to/threatr/connect-vendors).

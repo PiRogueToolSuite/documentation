@@ -1,0 +1,59 @@
+---
+sidebar_position: 9
+---
+
+import CaptionedImage from '@site/src/components/CaptionedImage';
+
+# Network transmission view
+
+The details of a PiRogue experiment list each decrypted network transmission of the analyzed app. This page describes what is displayed for a transmission. To produce them, see [Analyze the network traffic of an app in Colander](/docs/how-to/colander/analyze-app-traffic).
+
+Colander implements a graphical interface dedicated to traffic decryption, decoding and analysis of each network transmission. The purpose of this interface is to display information related to the network traffic as well as information related to the execution of the analyzed application. More precisely, this interface shows what part of an application was in charge of each network transmission.
+
+<CaptionedImage src="/img/guides/analyze-traffic-with-colander/decrypted_traffic.png" alt="Example of decrypted network transmission" caption="Example of decrypted network transmission" />
+
+The interface of each network transmission is composed of the following sections:
+1. summary of the transmission listing:
+    * the direction of the transmission, either inbound or outbound
+    * the layer-7 protocol
+    * the amount of data sent or received
+    * the source and destination IP addresses (and their name resolution)
+2. Exodus Privacy analysis of the stack trace listing:
+    * the name of the detected SDK, nothing otherwise
+    * the purposes of the detected SDK
+3. list of detection rules matching on the current transmission
+4. *geoip* information of the remote server listing:
+    * the Community ID of the flow
+    * the ASN and its block of IPs
+    * the organization
+    * the country
+5. Android process information listing:
+    * the timestamp of the termination of the transmission
+    * the Android process name (usually the package name of the application)
+    * the ID of the process
+    * the ID of the thread
+    * the ID of the socket
+6. headers of the HTTP request, empty otherwise
+7. stack trace indicating what part of the application was in charge of the corresponding socket operations
+8. indicates if the transmitted data/payload has been encrypted before transmission or not
+9. controls on the data/payload allowing to:
+    * view the raw data (encoded in hex) or the decrypted data (if encrypted before transmission)
+    * send to CyberChef the raw data (encoded in hex) or the decrypted data (if encrypted before transmission)
+    * import manually decoded data/payload/content
+10. decoded transmitted data
+
+:::danger[Limitations]
+
+PiRogue does not support all TLS libraries. This means that the PiRogue and Colander may not be able to capture some TLS traffic. Colander only displays HTTP traffic, do not forget to check the other protocols by opening your PCAP file with Wireshark.
+
+:::
+
+:::tip[Did you know?]
+
+You can open the PCAP file with Wireshark and specify the key log file in *Settings > Protocols > TLS*. This way, Wireshark will automatically decrypt TLS traffic.
+
+:::
+
+## Sources of the information
+
+Colander will be using the PCAP file `traffic.pcap` and the file `sslkeylog.txt` to decrypt the network traffic. Once decrypted, Colander will do the automatic enrichment. First, based on the [Community ID](https://github.com/corelight/community-id-spec) and time correlation, it will attach to each network flow the corresponding stack trace read from the file `socket_trace.json`. Each stack trace is then analyzed using [Exodus Privacy](https://exodus-privacy.eu.org/) detection rules to detect the SDK potentially involved in the transmission. Then, by comparing the raw payloads read from the decrypted traffic and the `in` and `out` payloads read from the file `aes_info.json` containing all cryptographic operations (not only AES), Colander will attach the corresponding cleartext. The purpose here is to decrypt payloads that were encrypted before being sent over TLS. Finally, ElasticSearch will automatically attach to each network flow the corresponding *geoip* information such as the country and the organization of the remote server.

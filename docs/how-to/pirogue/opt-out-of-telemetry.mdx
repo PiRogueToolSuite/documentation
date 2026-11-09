@@ -1,0 +1,27 @@
+---
+sidebar_position: 14
+---
+
+
+# Opt out of telemetry
+
+This guide shows how to stop the telemetry of a PiRogue and how to get the data collected about it deleted. The collected data is described in [Telemetry](/docs/reference/pirogue/telemetry).
+
+## Disable the telemetry
+Run:
+```bash title="Disable the telemetry"
+sudo pirogue-telemetry config disable
+```
+
+Or remove the telemetry service entirely:
+```bash title="Uninstall the telemetry service"
+sudo apt purge pirogue-telemetry
+```
+
+## Get your data deleted
+To get the data collected about your PiRogue deleted, write at **hello@pts-project.org** and specify the ID or the sha256 of the ID of your PiRogue.
+
+You can find the ID (`unique_id`) of your PiRogue by running the command:
+```bash title="Check the telemetry configuration"
+sudo pirogue-telemetry config show
+```

@@ -1,0 +1,21 @@
+---
+sidebar_position: 7
+---
+
+# Uninstall Colander
+
+This guide shows how to completely remove a Colander server [deployed with Ansible](/docs/how-to/colander/deploy-with-ansible).
+
+:::danger[Irreversible]
+
+All the containers, volumes, images, data, backups and configuration files are permanently deleted. Copy the backups you want to keep to another location first, see [Back up and restore Colander](/docs/how-to/colander/back-up-and-restore).
+
+:::
+
+On your laptop, in the `colander-ansible` folder, run the playbook `teardown-colander`:
+
+```shell title="💻 Tear down Colander"
+ansible-playbook -J -K -i production.yml playbooks/teardown-colander.yml
+```
+
+The playbook asks for the password of the user `colander` and for the password of your vault.

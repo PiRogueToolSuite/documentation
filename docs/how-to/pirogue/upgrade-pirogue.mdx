@@ -1,0 +1,29 @@
+---
+sidebar_position: 2
+---
+
+# Upgrade a PiRogue
+
+This guide shows how to upgrade the operating system and the features of a PiRogue. All the features of the PiRogue are Debian packages, so upgrading Debian upgrades the PiRogue. We advise you to upgrade your PiRogue **weekly**.
+
+## Back up your customizations
+
+If you modified configuration files of the system by hand, copy them before upgrading: the upgrade overrides the files managed by the PiRogue packages.
+
+* **PiRogue 2.x**: upgrades try to keep your configuration, but keep a copy of the files listed in [Configuration files managed by the packages](/docs/reference/pirogue/packages#pirogue-2x) in case an upgrade does not go as planned.
+* **PiRogue 1.x**: every file listed in [Configuration files managed by the packages](/docs/reference/pirogue/packages#pirogue-1x) is overwritten. Use `pirogue-ctl` to keep your configuration across upgrades, see [Configure a PiRogue 1.x](/docs/how-to/pirogue/configure-pirogue-1x).
+
+## Upgrade
+
+On your PiRogue, run:
+
+```bash
+sudo apt update
+sudo apt dist-upgrade
+```
+
+The upgrade can take some time. Reboot the PiRogue afterwards:
+
+```bash
+sudo reboot
+```

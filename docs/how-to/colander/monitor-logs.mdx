@@ -1,0 +1,37 @@
+---
+sidebar_position: 6
+---
+
+# Monitor the logs of Colander
+
+This guide shows how to read the logs of a Colander server [deployed with Ansible](/docs/how-to/colander/deploy-with-ansible), and how to spot authentication failures.
+
+The logs of all the containers are sent to `journald`, the standard logging service of Debian. Run the commands of this guide on your server.
+
+## Follow the logs of a container
+
+```shell title="📦 Follow the logs of the Colander web front-end"
+journalctl -f CONTAINER_NAME=colander-colander-front-1
+```
+
+## Filter the logs of a service or a type of service
+
+Replace `CONTAINER_NAME` with another field to select the logs you want:
+
+```shell title="📦 Follow the logs of all the web services"
+journalctl -f COLANDER_SERVICE_TYPE=web
+```
+
+See [Log fields](/docs/reference/colander/ansible-deployment#log-fields) for all the fields you can filter on.
+
+## Find authentication failures
+
+Every failed login is logged with the keyword `COLANDER_AUTH_FAILURE`:
+
+```shell title="📦 List the authentication failures"
+journalctl -g COLANDER_AUTH_FAILURE
+```
+
+Each line contains the username, the email address and the IP address of the client, see [Authentication failures](/docs/reference/colander/ansible-deployment#authentication-failures) for the exact format.
+
+Because the format is fixed, tools such as `fail2ban` can read these logs to block IP addresses after several authentication failures.

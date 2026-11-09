@@ -1,0 +1,39 @@
+---
+sidebar_position: 8
+---
+
+
+# Export the alerts and flows of a PiRogue
+
+This guide shows how to export the Suricata alerts and the network flows stored on a PiRogue into CSV files. The PiRogue deletes them after 5 days; export them to keep them or to analyze them in another tool.
+
+
+*This is the translation in English from Spanish of a [tutorial originally written by niculcha](https://blog.codigosur.org/pirogue).*
+
+## Export the data
+
+First, connect to your PiRogue with SSH:
+```bash
+ssh -p22 pi@<PiRogue IP address> 
+```
+
+Then, export alert data in a CSV file:
+```bash
+influx -database 'suricata' -execute 'SELECT * FROM "suricata"."suricata_5d"."alert"' -format 'csv' > alerts-`date +"%Y-%m-%d"`.csv
+```
+
+Export flow data too:
+```bash
+influx -database 'flows' -execute 'SELECT * FROM "flows"."flows_5d"."flow"' -format 'csv' > flows-`date +"%Y-%m-%d"`.csv
+```
+
+Finally, copy 2 generated CSV files from PiRogue to your computer using `scp`. On your computed, use the following command:
+```bash
+scp pi@<PiRogue IP address>:<path of the CSV file> .
+```
+
+Once you have retrieved your CSV files, you can open them with Excel, LibreOffice or any other software supporting the CSV format.
+
+## Refine the export
+
+The queries above export everything. Add conditions on the fields of the data, listed in [Stored data](/docs/reference/pirogue/stored-data), to export only what you need, see the [InfluxQL documentation](https://docs.influxdata.com/influxdb/cloud/query-data/influxql/explore-data/).

@@ -1,0 +1,23 @@
+---
+sidebar_position: 6
+---
+
+# Mobile app analysis
+
+Encrypted traffic looks like noise from the outside. To see what a mobile app really sends, the PiRogue can **instrument the app** on a connected Android device: it records the network traffic, extracts the TLS keys and traces the cryptographic operations, even when the app uses certificate pinning.
+
+What you get for each experiment:
+
+* the full network traffic (`traffic.pcap`) and the TLS keys to decrypt it (`sslkeylog.txt`)
+* a trace of the socket operations, showing which part of the app sent what
+* the encryption and decryption operations, in cleartext
+* a screen recording of the session
+
+Instrumenting an app with [Frida](https://frida.re) extracts the TLS keys from the memory of the device, instead of placing a proxy in the middle of the connection. The traffic is not altered, and the security of the app is not weakened, for instance by disabling certificate pinning. The recorded traffic can then be decrypted with standard tools such as Wireshark, or in Colander.
+
+## Going further
+* Run an experiment: [Intercept and decrypt the TLS traffic of an app](/docs/how-to/pirogue/intercept-tls-traffic)
+* Decrypt, decode and report on it in Colander: [Analyze the network traffic of an app in Colander](/docs/how-to/colander/analyze-app-traffic)
+* What to look for in the traffic: [Data collected by mobile apps](/docs/explanation/investigations/mobile-app-data-collection)
+* The files produced by an experiment: [Experiment files](/docs/reference/pirogue/experiment-files)
+* Run the analysis from your own computer instead, with [Octopus](https://pts-project.org/octopus/)

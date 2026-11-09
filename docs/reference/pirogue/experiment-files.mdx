@@ -1,0 +1,20 @@
+---
+sidebar_position: 7
+---
+
+# Experiment files
+
+Files generated in the output directory by `pirogue-intercept-single` and `pirogue-intercept-gated`, see [Intercept and decrypt the TLS traffic of an app](/docs/how-to/pirogue/intercept-tls-traffic).
+
+| File | Content |
+|------|---------|
+| `ad_ids.txt` | The Android advertising identifiers read during the experiment |
+| `aes_info.json` | All the AES and RSA encryption and decryption operations, with both cleartext and ciphertext |
+| `device.json` | Information about the device, such as its IMEI and its Android version |
+| `experiment.json` | Timing information, such as the start and end dates of the experiment. Used by `pirogue-colander collect-experiment` to find the files to upload |
+| `screen.mp4` | The video recording of the screen of the device |
+| `socket_trace.json` | The stack trace of all the operations on sockets (open, close, read, write…) |
+| `sslkeylog.txt` | The TLS encryption keys, in the [NSS key log format](https://nss-crypto.org/reference/security/nss/legacy/key_log_format/index.html) |
+| `traffic.pcap` | The entire network traffic captured during the experiment |
+
+`traffic.pcap` can be decrypted by Wireshark with `sslkeylog.txt`, set in *Settings > Protocols > TLS*.

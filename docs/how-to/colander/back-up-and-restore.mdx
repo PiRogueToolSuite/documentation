@@ -1,0 +1,51 @@
+---
+sidebar_position: 5
+---
+
+# Back up and restore Colander
+
+This guide shows how to back up a Colander server [deployed with Ansible](/docs/how-to/colander/deploy-with-ansible), and how to restore a backup.
+
+In this guide, 💻 marks the commands to run on your laptop, in the `colander-ansible` folder, and 📦 the commands to run on your server.
+
+## Create a backup
+
+Run the playbook `backup-colander`:
+
+```shell title="💻 Back up Colander"
+ansible-playbook -J -i production.yml playbooks/backup-colander.yml
+```
+
+You can also run the backup script directly on your server:
+
+```shell title="📦 Back up Colander"
+/home/colander/colander/scripts/backup
+```
+
+The backup is stored in `/home/colander/colander/backups/`, in a folder named after the date and time of the backup, for instance `2025_02_18-13_47_01`. It contains a dump of the databases, a snapshot of the Elasticsearch indices and an archive of the stored files, see [Backups](/docs/reference/colander/ansible-deployment#backups).
+
+The script only creates the dumps and the archives. Copy them to another location, and schedule the backups, with your favorite backup tool, according to your backup policies.
+
+Alternatively, you can shut down the whole stack and create an archive of all the Docker volumes.
+
+## Restore a backup
+
+:::danger[Configuration vault and backups]
+
+A backup is only valid for the configuration it was created with. Never mix backups from different Colander servers: the passwords they contain are encrypted with the secret keys of the configuration vault of their server.
+
+:::
+
+1. Make sure Colander is up and running.
+
+2. On your server, run the restore script with the name of the backup folder:
+
+   ```shell title="📦 Restore a backup"
+   /home/colander/colander/scripts/restore "2025_02_18-13_47_01"
+   ```
+
+3. Restart Colander:
+
+   ```shell title="💻 Restart Colander"
+   ansible-playbook -J -K -i production.yml playbooks/restart-colander.yml
+   ```

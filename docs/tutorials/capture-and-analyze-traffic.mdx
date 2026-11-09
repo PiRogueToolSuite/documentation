@@ -1,0 +1,106 @@
+---
+sidebar_position: 4
+sidebar_label: Capture and analyze the traffic of a device
+---
+
+# Capture and analyze the traffic of a device
+
+*Beginner tutorial · written by Esther Onfroy*
+
+In this tutorial, we will record the network traffic of a phone connected to a PiRogue into a file, copy this file to our computer, and explore it with Wireshark.
+
+## What you need
+
+* a PiRogue in access point mode, set up as in [Your first PiRogue on a Raspberry Pi](/docs/tutorials/pirogue-on-a-raspberry-pi)
+* a phone that you can use for this exercise
+* a computer with [Wireshark](https://www.wireshark.org/download.html) installed, on the same network as the PiRogue
+
+:::info[Why a separate network?]
+
+The phone is connected to the Wi-Fi network of the PiRogue, isolated from the rest of your network. This way, the capture only contains the traffic of this phone. [Network traffic analysis](/docs/explanation/pirogue/network-traffic-analysis) explains why this matters when the device may be compromised.
+
+:::
+
+## Prepare the phone
+
+So that all its traffic goes through the PiRogue, apply the following settings on the phone:
+
+* enable airplane mode
+* disable mobile data, to use Wi-Fi only
+* disable any VPN
+
+Don't connect it to the PiRogue yet.
+
+## Start the capture
+
+Connect to your PiRogue with SSH:
+
+```bash
+ssh pi@pirogue.local
+```
+
+Start recording the traffic of the Wi-Fi network into a file:
+
+```bash title="Record the traffic of the Wi-Fi network into a file"
+sudo tcpdump -i wlan0 -w $(date +%Y%m%d%H%M)_capture.pcap
+```
+
+The command keeps running and does not display anything: it writes every packet to a file named after the current date and time, for example `202609251430_capture.pcap`. Leave this terminal open.
+
+## Generate some traffic
+
+Turn on the Wi-Fi of the phone, still in airplane mode, and connect it to the Wi-Fi network of the PiRogue. Then use the phone for about 15 minutes: open a few apps, browse a website, check the weather.
+
+While you do so, open the dashboard of your PiRogue at `https://pirogue.local/dashboard`. The flows of your phone start to appear after a few minutes.
+
+## Stop the capture and get the file
+
+In the terminal connected to the PiRogue, press `Ctrl + C`. `tcpdump` stops and tells you how many packets it captured.
+
+List the capture files to get the exact name of yours:
+
+```bash
+ls *_capture.pcap
+```
+
+Then, in a terminal **on your computer**, copy the file from the PiRogue, replacing the name with yours:
+
+```bash title="Copy the capture file from the PiRogue to the computer"
+scp pi@pirogue.local:~/202609251430_capture.pcap .
+```
+
+## Explore the capture in Wireshark
+
+1. Launch Wireshark, go to **File > Open** and select your capture file.
+   Wireshark lists every captured packet with its `Time`, `Source`, `Destination`, `Protocol`, `Length` and `Info`.
+
+2. Type `dns` in the filter bar at the top and press `Enter`.
+   You now only see the DNS queries: each one is the phone asking for the address of a server. Look at the domain names in the `Info` column. You will recognize some of them, such as the website you browsed; others belong to the apps and to the operating system.
+
+3. Replace the filter with `tls.handshake.extensions_server_name` and press `Enter`.
+   Each packet is the start of an encrypted connection. Double-click one, expand **Transport Layer Security** and find the **Server Name**: even when the content is encrypted, the name of the server is visible.
+
+4. Right-click a packet, then select **Follow > TCP Stream**.
+   Wireshark shows the whole conversation between the phone and this server. For encrypted traffic, it looks like noise.
+
+5. Clear the filter, then open **Statistics > Conversations** and select the **IPv4** tab.
+   You get the list of all the servers the phone talked to, with the amount of data exchanged with each of them. Sort by **Bytes** to see where most of the traffic went.
+
+## What you have learned
+
+You captured the traffic of a phone with `tcpdump` on the PiRogue, copied the capture to your computer, and used Wireshark to see which servers the phone contacted, even when the traffic is encrypted.
+
+For a real investigation, the capture lasts a few days instead of 15 minutes, because spyware often contacts its servers only once or twice a day.
+
+:::caution[Interpreting a capture]
+
+Deciding whether traffic is suspicious depends on the context of the person using the device. If you are in a vulnerable situation, seek help from experts to analyze your capture: [AccessNow](https://www.accessnow.org/help/), [Amnesty International](https://www.amnesty.org), [CiviCERT](https://www.civicert.org/help/) or [Human Rights Watch](https://www.hrw.org).
+
+:::
+
+To continue:
+
+* understand what the PiRogue detects automatically, and what it cannot detect: [Network traffic analysis](/docs/explanation/pirogue/network-traffic-analysis)
+* capture the traffic of a PiRogue in another operating mode: [Capture network traffic](/docs/how-to/pirogue/capture-network-traffic)
+* decrypt the TLS traffic of an Android app: [Intercept and decrypt the TLS traffic of an app](/docs/how-to/pirogue/intercept-tls-traffic)
+* learn more about traffic analysis with the [Wireshark documentation](https://www.wireshark.org/docs/wsug_html_chunked/), the book ["Practical Packet Analysis"](https://nostarch.com/packetanalysis3), the TryHackMe rooms [Traffic Analysis Essentials](https://tryhackme.com/room/trafficanalysisessentials) and [Wireshark: The Basics](https://tryhackme.com/room/wiresharkthebasics), and [malware-traffic-analysis.net](https://malware-traffic-analysis.net/)

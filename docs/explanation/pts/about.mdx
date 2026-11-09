@@ -1,0 +1,67 @@
+---
+sidebar_position: 1
+sidebar_label: About the suite
+---
+
+# About the PiRogue Tool Suite
+
+<div style={{textAlign: 'center', margin: '1.5rem 0'}}>
+  <img src="/img/pts-logo-circle.svg" alt="PiRogue Tool Suite logo" style={{width: '120px', height: '120px'}} />
+</div>
+
+The tools work together: the PiRogue observes a device, Colander turns the findings into an investigation, and Threatr and Mandolin enrich the evidence.
+
+```mermaid
+flowchart TB
+    DEV["Device to analyze"]
+
+    subgraph PROBE ["PiRogue: network probe"]
+        direction LR
+        PR["Traffic interception\nThreat detection\nDeep packet inspection"]
+        MO["Mongoose\nEvent collection and enrichment"]
+        OC["Octopus\nDynamic analysis of Android apps"]
+    end
+
+    COL["Colander\nCase management, evidence,\ndetection rules, collaboration"]
+    THR["Threatr\nThreat intelligence:\nVirusTotal, OTX, Shodan, MISP"]
+    MAN["Mandolin\nOffline file analysis:\nmetadata, OCR, antivirus, Yara"]
+
+    DEV -->|"network traffic"| PR
+    PR --- MO
+    PR --- OC
+    PR -->|"alerts, flows, evidence"| COL
+    COL <-->|"lookups"| THR
+    COL <-->|"files"| MAN
+```
+
+At the core of the PiRogue Tool Suite lies the **PiRogue**, a network router, originally built on a Raspberry Pi, that captures and analyzes network traffic in real-time. This hardware component serves as the foundation for the suite's extensive software capabilities, which include:
+
+* **Network traffic analysis**: The PiRogue enables deep packet inspection of network traffic, facilitating the identification of suspicious patterns and potential threats.
+
+* **Mobile Device Forensics**: The PiRogue allows for the consensual extraction and analysis of data from mobile devices, including messages and application data, providing valuable insights into the system activity.
+
+* **Mobile app and malware analysis**: The PiRogue is capable of dynamically instrumenting mobile applications and operating system to trace all network communication, data collection and cryptographic operations, providing evidence of data transmission and malicious activities.
+
+The PiRogue Tool Suite's capabilities are complemented by the **Colander** web platform, a case and incident response management platform that integrates seamlessly with the hardware and software components. Colander provides a centralized hub for managing investigations, streamlining workflows, and enabling collaboration among team members.
+
+* **Knowledge management**: Colander facilitates the organization and sharing of investigative knowledge, ensuring that insights are readily available to team members, promoting collaboration and efficiency.
+
+* **Artifact management**: Colander streamlines the handling and preservation of digital evidence, maintaining chain of custody and facilitating admissibility in legal proceedings.
+
+* **Digital investigation**: Colander simplifies the digital investigation process, offering a central platform for case management, evidence handling, gathering threat intelligence for 3rd-party, collaboration, and network traffic analysis.
+
+The PiRogue Tool Suite offers several key advantages that make it an attractive option for organizations seeking a comprehensive and cost-effective solution for digital investigations:
+
+* **Open-source**: The open-source nature of the project makes it accessible to organizations with limited budgets, removing financial barriers to acquiring powerful investigative tools.
+
+* **Comprehensive toolset**: The suite provides a wide range of tools for both mobile forensics and network traffic analysis, catering to diverse investigative needs and ensuring thoroughness in evidence collection.
+
+* **User-friendly design**: The user interface is designed to be intuitive and straightforward, even for non-technical users, minimizing the learning curve and enabling an efficient adoption.
+
+* **Modular flexibility**: The modular design allows for easy integration with existing systems and workflows, facilitating compatibility with existing infrastructure and processes.
+
+* **Community support**: The active open-source community provides ongoing support and development, ensuring that the suite remains up-to-date and continuously improves and adapts to evolving needs.
+
+Each tool can be used on its own: a PiRogue works without Colander, and Threatr and Mandolin can serve other tools than Colander.
+
+To learn more about each tool, read [What is a PiRogue?](/docs/explanation/pirogue/what-is-a-pirogue), [What is Colander?](/docs/explanation/colander/what-is-colander), [What is Threatr?](/docs/explanation/threatr/what-is-threatr) and [What is Mandolin?](/docs/explanation/mandolin/what-is-mandolin). The project itself is presented in [Background](/docs/explanation/pts/background) and [Philosophy](/docs/explanation/pts/philosophy).

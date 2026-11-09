@@ -1,0 +1,27 @@
+---
+sidebar_position: 12
+---
+
+import CaptionedImage from '@site/src/components/CaptionedImage';
+
+# Verify the integrity of an artifact
+
+This guide shows how the recipient of an artifact checks that the file has not been modified since it was uploaded to Colander, and that it comes from the case it claims to come from. To understand what is verified, see [Chain of custody](/docs/explanation/colander/chain-of-custody).
+
+## What you need
+
+From the details of the artifact in Colander:
+
+* the artifact file itself
+* the detached signature of the artifact
+* the public key of the case the artifact belongs to
+
+<CaptionedImage src="/img/colander/artifact_management/integrity.png" alt="Check the integrity of an artifact" caption="Check the integrity of an artifact" align="center"/>
+
+## Verify the artifact
+
+1. Compute the SHA-256 hash of the file, for instance with `sha256sum`, and compare it with the SHA-256 displayed in the details of the artifact.
+
+2. Verify the detached RSA signature of the file with the public key of the case, using `openssl`. The exact command is displayed in the details of the artifact, as shown above.
+
+3. If the hashes match and the signature is valid, the file has not been tampered with since it was signed by Colander.

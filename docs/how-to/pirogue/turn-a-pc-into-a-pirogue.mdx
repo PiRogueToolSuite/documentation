@@ -1,0 +1,67 @@
+---
+sidebar_position: 12
+---
+
+
+import CaptionedImage from '@site/src/components/CaptionedImage';
+
+# Turn a PC into a Wi-Fi PiRogue
+
+This guide shows how to install a PiRogue in *access point* mode on a PC with an Ethernet interface and a wireless interface. For other setups, see [Install a PiRogue](/docs/how-to/pirogue/install-pirogue).
+
+## Requirements
+You need:
+* a PC with one Ethernet interface, one wireless interface and Debian 12 freshly installed
+* the wireless interface has to support the AP mode (access-point mode)
+* the PC is connected to our local network via its Ethernet adapter
+* the PC has an Internet connection
+
+:::danger[Danger]
+
+Don't install any desktop environment.
+
+:::
+
+## Prepare the system
+Connect to the PC and upgrade it:
+
+```bash
+sudo apt update
+sudo apt dist-upgrade
+```
+
+Then install `iw` to check if the wireless interface supports the AP mode:
+
+```bash
+sudo apt install iw
+```
+
+run `iw list`and scroll through its output to check if the wireless interface supports the AP mode. If so, it should look like
+
+<CaptionedImage src="/img/recipes/pirogue-pc/ap-mode.png" alt="Output of iw list" align="center"/>
+
+## Install the PiRogue packages
+Add the PTS package repository:
+
+```bash
+sudo wget -O /etc/apt/sources.list.d/pirogue.list https://pts-project.org/debian-12/pirogue.list
+sudo wget -O /etc/apt/trusted.gpg.d/pirogue.gpg   https://pts-project.org/debian-12/pirogue.gpg
+sudo apt update
+```
+
+Finally install the PiRogue features:
+
+```bash
+sudo apt install pirogue-base
+```
+
+## Check that everything runs properly
+Check the state of the PiRogue:
+
+```bash
+pirogue-ctl status 
+```
+
+<CaptionedImage src="/img/recipes/pirogue-pc/status.png" alt="Output of pirogue-ctl status" align="center"/>
+
+If everything is displayed in purple and green, the PiRogue runs properly. If not, [join the Discord channel](https://discord.gg/qGX73GYNdp) to get help.

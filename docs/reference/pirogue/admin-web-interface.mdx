@@ -1,0 +1,78 @@
+---
+sidebar_position: 4
+---
+
+# Admin web interface
+
+The admin web interface of a PiRogue 2.x is served at `http://<PiRogue IP address>/admin`, next to the dashboard. It requires `pirogue-admin-client` version `>=2.0.8`. To use it, see [Administer a PiRogue from your browser](/docs/how-to/pirogue/administer-from-the-browser).
+
+## Tokens
+
+| Token | Access |
+|-------|--------|
+| Administration token | All the features. Displayed by `pirogue-admin-client access get-administration-token` |
+| User access token | Only the features granted to the user access |
+
+A section of the interface is only displayed when the token used to log in has the permissions it requires.
+
+## Sections
+
+The menu on the left is organized in two groups.
+
+### Information
+
+| Section | Description |
+|---------|-------------|
+| **Status** | State of the PiRogue services. |
+| **Configuration** | Current configuration of the PiRogue (read-only), the same as `pirogue-admin-client system get-configuration`. |
+| **Packages** | Installed PiRogue packages and their versions. Useful to check at a glance whether a system update is needed. |
+| **Network** | Devices connected to the isolated interface, and ports currently open on it. |
+
+### Configuration
+
+| Section | Description |
+|---------|-------------|
+| **System** | Hostname, locale, time zone and password of the dashboard. |
+| **Network** | Public access of the administration (domain name and contact email), Wi-Fi configuration and open ports of the isolated network. |
+| **Access** | Management of the [user accesses](/docs/how-to/pirogue/administer-from-the-browser#create-user-accesses). |
+| **VPN** | Management of the WireGuard peers, see [VPN](#vpn). |
+| **Suricata** | Management of the Suricata rules sources, see [Suricata](#suricata). |
+
+### VPN
+
+Available when the [operating mode](/docs/explanation/pirogue/operating-modes) of the PiRogue is *VPN*.
+
+* The **Active Peers list** shows all the WireGuard peers. **New** creates a peer and **Delete** removes the selected one.
+* For the selected peer, **Keys** displays its public key, private key and IPv4 address.
+* **Configuration** displays the WireGuard configuration of the peer as a **QR code** and as text. The person using the VPN only has to scan the QR code with the WireGuard application. See [Manage the VPN peers](/docs/how-to/pirogue/configure-pirogue#manage-the-vpn-peers).
+
+### Suricata
+
+The **Rules sources** list shows the Suricata rule sets known by the PiRogue. Select one to see its **Details**: name, URL, state, type, summary, vendor, license and parameters.
+
+* **Enable** activates a source and **Disable** deactivates it. Some sources need parameters before they can be enabled, in which case the interface displays a warning.
+* **Create custom source** adds your own source with a name and a URL.
+
+## Permissions
+
+Permissions are named `Service:Permission`, for instance `System:GetStatus` (see the status) or `Network:ListVPNPeers` (see the VPN peers). `pirogue-admin-client access get-permission-list` lists them all. Each section of the interface requires specific permissions, for example:
+
+| Section | Required permissions |
+|---------|----------------------|
+| Status | `System:GetStatus` |
+| Configuration | `System:GetConfiguration` |
+| Packages | `System:GetPackagesInfo` |
+| Network (information) | `Network:ListConnectedDevices`, `Network:ListIsolatedOpenPorts` |
+| VPN | `Network:ListVPNPeers` (`Network:AddVPNPeer` and `Network:DeleteVPNPeer` to create and delete peers) |
+| Suricata | `Services:ListSuricataRulesSources` |
+| Access | `Access` |
+
+## Permission syntax
+
+The syntax of a permission is `[MODIFIER]SERVICE[:PERMISSION]`:
+
+| Modifier | Effect |
+|----------|--------|
+| `+` | Adds the permission. |
+| `-` | Removes the permission. |
+| *none* | Sets the permission and removes all the others. |

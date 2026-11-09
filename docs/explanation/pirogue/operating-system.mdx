@@ -1,0 +1,59 @@
+---
+sidebar_position: 8
+---
+
+
+# Operating system and packaging
+
+The PiRogue runs PiRogueOS, which is based on Debian 12. Debian is a renowned Linux distribution recognized for its stability, reliability, and commitment to open-source principles. It serves as a foundational platform for numerous other distributions and is widely adopted in various industries, including enterprise environments, scientific research, and embedded systems. Debian's trustworthiness stems from its long-standing reputation for quality, its rigorous testing and development processes, and its commitment to open and transparent collaboration.
+
+Debian's stability is attributed to its conservative approach to software updates, ensuring that only thoroughly tested and stable packages are included in its repositories. This emphasis on stability makes Debian a preferred choice for mission-critical systems where reliability is paramount.
+
+Debian's commitment to open-source principles fosters a collaborative development model that leverages the expertise of a vast community of developers and users. This open approach promotes transparency, encourages peer review, and ensures that Debian remains a community-driven project with a focus on quality and security.
+
+On top of Debian, the PiRogue installs a set of established open-source tools for network traffic analysis, device forensics and threat intelligence gathering, listed in [Pre-installed tools](/docs/reference/pirogue/pre-installed-tools).
+
+## Integration with Raspberry Pi
+
+PiRogue OS is a tailored version of Debian mainline, a popular Linux distribution known for its stability and reliability. However, the custom HAT (Hardware Attachment on Top) used in PiRogue requires additional configurations to integrate seamlessly with the Linux kernel. To achieve this compatibility, custom Device Tree Blobs (DTBs) and `udev` rules have been developed.
+
+**Device Tree Blobs (DTBs)** are data structures that describe the hardware configuration of a device, providing the kernel with information about its components and their relationships. Custom DTBs for the PiRogue HAT enable the kernel to recognize and properly interact with the HAT's unique hardware components, such as the TFT screen, RTC, and fan control circuitry.
+
+**`Udev` rules**, on the other hand, are configuration files that govern how the Linux kernel handles device events and assigns device permissions. Custom `udev` rules for the PiRogue HAT ensure that the kernel properly detects the HAT's devices, assigns them appropriate permissions, and triggers the necessary actions when events occur.
+
+The definition of the different DTB overlays and `udev` rules can be reviewed on GitHub:
+* [https://github.com/PiRogueToolSuite/deb-packages/tree/debian-12/pirogue-hat/linux/arm64](https://github.com/PiRogueToolSuite/deb-packages/tree/debian-12/pirogue-hat/linux/arm64)
+* [https://github.com/PiRogueToolSuite/deb-packages/tree/debian-12/pirogue-screen-st7789-240x240/linux/arm64](https://github.com/PiRogueToolSuite/deb-packages/tree/debian-12/pirogue-screen-st7789-240x240/linux/arm64)
+
+By implementing custom DTB overlays and `udev` rules, PiRogue OS ensures seamless integration between the Raspberry Pi, the custom HAT, and the Linux kernel. This tailored approach enables the PiRogue to operate smoothly within the Debian environment. The Linux Kernel uses the RTC as a reference of time and takes care synchronizing the system time with the RTC one at its boot if NTP is not available.
+
+The generation of the operating system image to be flashed on an SD-card is ensured by Packer. It takes the official Debian image and applies changes such as creating a default user and configuring a PPA. The modifications applied to the official Debian image is available on GitHub [https://github.com/PiRogueToolSuite/pirogue-images](https://github.com/PiRogueToolSuite/pirogue-images).
+
+PiRogue features can be installed on a Raspberry Pi as well as on a regular computer equipped with a Wi-Fi interface and an Ethernet interface.
+
+
+## Packaging for PiRogue
+
+All features and software installed on the PiRogue are packaged for Debian 12. These packages are published on our [PPA](https://pts-project.org/ppa/).
+
+A Personal Package Archive (PPA) serves as a repository for software packages maintained by individuals or teams outside of the official Debian distribution. It allows developers to distribute and update their software independently, providing users with access to newer versions or packages not yet included in Debian's main repositories. PPAs offer a convenient way to access other software but require cautious use as they may not undergo the same rigorous testing as official Debian packages.
+
+PTS’s PPAs contain both PiRogue-specific tools as well as external tools that are not available on official Debian repository.
+
+The packages are listed in [Packages](/docs/reference/pirogue/packages).
+
+All PiRogue-specific packages are defined in the GitHub repository [https://github.com/PiRogueToolSuite/deb-packages](https://github.com/PiRogueToolSuite/deb-packages) for Debian 12.
+
+PiRogue Debian packages can be installed on any compatible hardware running Debian 12 (without graphical environment). The package hardware-detection will be taking care of installing the HAT drivers if the installation is done on a Raspberry Pi.
+
+<details>
+<summary>PiRogue packages dependency tree</summary>
+
+<img
+  src="/img/pirogue/os/dpkg.svg"
+  alt="PiRogue packages dependency tree"
+  width="80%" />
+
+</details>
+
+Because everything is a Debian package, upgrading Debian upgrades the PiRogue, see [Upgrade a PiRogue](/docs/how-to/pirogue/upgrade-pirogue).

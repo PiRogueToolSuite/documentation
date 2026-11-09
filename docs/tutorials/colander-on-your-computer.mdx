@@ -1,0 +1,116 @@
+---
+sidebar_position: 5
+sidebar_label: Try Colander on your computer
+---
+
+# Try Colander on your computer
+
+In this tutorial, we will run the whole Colander stack on our own computer with the **Colander quick deploy** package, create an administrator account, log in and open a first case.
+
+:::note[Trying is not hosting]
+
+This tutorial is a safe place to discover Colander, on your own machine. To host Colander for your team, use one of the two supported deployment methods described in [Choosing how to deploy Colander](/docs/explanation/colander/deployment-options).
+
+:::
+
+## What you need
+
+* [Docker and Docker Compose](https://docs.docker.com/compose/install/)
+* `curl` and `unzip`
+* about 10 GB of free disk space and 8 GB of RAM: the stack runs a database, a search engine, an object storage, and the Threatr, Mandolin and CyberChef services next to Colander
+
+## Download Colander quick deploy
+
+Download and extract the archive, then enter its `docker` folder:
+
+```bash
+curl -fsSLO https://pts-project.org/colander-ansible/colander-quick-deploy.zip
+unzip colander-quick-deploy.zip
+cd docker
+```
+
+All the following commands are run from this folder.
+
+## Generate the configuration
+
+Run the initialization file. It writes a minimal `.env` file containing randomly generated secrets:
+
+```bash
+docker compose -f compose-init.yml up -d
+```
+
+Check that the file is there:
+
+```bash
+ls -l .env
+```
+
+You don't need to edit it for this tutorial.
+
+## Start the stack
+
+Start the whole stack with the development configuration. It generates a self-signed certificate, so that you don't need a domain name:
+
+```bash
+docker compose -f compose-dev.yml up -d
+```
+
+The first start downloads all the images and takes several minutes. Follow the start of the web service until it stops printing new lines:
+
+```bash
+docker compose -f compose-dev.yml logs -f colander-front
+```
+
+Press `Ctrl + C` to stop following the logs. The stack keeps running.
+
+## Create your administrator account
+
+Create the first account of your Colander. The command asks for a username, an email address and a password:
+
+```bash
+docker compose -f compose-dev.yml exec colander-front /entrypoint python manage.py createsuperuser
+```
+
+## Log in
+
+Open [http://localhost:5000](http://localhost:5000) in your browser and log in with the account you just created.
+
+:::tip[Using the HTTPS address]
+
+The stack is also served through its reverse proxy at `https://colander.local:4443`. To use this address, add `colander.local` at the end of the line starting with `127.0.0.1` in the `/etc/hosts` file of your computer. Your browser warns you about the self-signed certificate: accept it for this tutorial.
+
+:::
+
+## Open your first case
+
+Everything in Colander belongs to a case.
+
+1. Go to the **Cases** workspace.
+2. Fill in the case creation form: give the case a name, such as `My first case`, and a short description. Leave the TLP and PAP confidentiality levels as they are.
+3. Save the case.
+4. Select the case in the case selector at the top of the page.
+
+Once the case is selected, new workspaces appear in the menu: **Collect**, **Graph**, **Document** and more.
+
+5. Open **Collect**, select **Observable** and create an observable of type *Domain* with the value `pts-project.org`.
+6. Open **Graph**: your observable is displayed as the first node of the knowledge graph of the case.
+
+## Stop Colander
+
+When you are done, stop the stack:
+
+```bash
+docker compose -f compose-dev.yml stop
+```
+
+Run `docker compose -f compose-dev.yml start` from the same folder to start it again with your data.
+
+## What you have learned
+
+You ran Colander and its companion services with the quick deploy package, created an administrator, opened a case and added your first entity to its knowledge graph.
+
+To continue:
+
+* understand how Colander organizes an investigation: [Case management](/docs/explanation/colander/case-management) and [Knowledge management](/docs/explanation/colander/knowledge-management)
+* connect your local Colander to your local Threatr: [Connect Colander to Threatr](/docs/how-to/colander/connect-to-threatr)
+* host Colander for your team: [Deploy Colander on a server with Ansible](/docs/how-to/colander/deploy-with-ansible) or [Deploy Colander with Docker Compose](/docs/how-to/colander/deploy-with-docker-compose)

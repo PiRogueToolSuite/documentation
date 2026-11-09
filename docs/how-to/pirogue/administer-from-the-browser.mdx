@@ -1,0 +1,114 @@
+---
+sidebar_position: 5
+---
+
+
+# Administer a PiRogue from your browser
+
+This guide shows how to log in to the admin web interface of a PiRogue, give limited accesses to other people, and reach the interface from the Internet. The sections of the interface are described in [Admin web interface](/docs/reference/pirogue/admin-web-interface).
+
+:::caution[PiRogue version >=2.0.0]
+
+This guide only applies when the package `pirogue-base` version `>=2.0.0` is installed.
+The web interface requires `pirogue-admin-client` version `>=2.0.8`.
+
+:::
+
+The admin web interface offers the same features as [`pirogue-admin-client`](/docs/how-to/pirogue/configure-pirogue), in a graphical interface. It is served next to the dashboard:
+
+| Service | Address |
+|---------|---------|
+| Dashboard | `http://<PiRogue IP address>/dashboard` |
+| Administration | `http://<PiRogue IP address>/admin` |
+
+:::info
+
+The same administration component is used by [Colander](/docs/how-to/colander/manage-a-pirogue-fleet) to manage the PiRogues of your fleet.
+
+:::
+
+## Get the web interface
+
+The web interface is delivered by the `pirogue-admin-web` package. On an existing PiRogue, [upgrade your system](/docs/how-to/pirogue/upgrade-pirogue) to get it:
+
+```bash
+sudo apt update
+sudo apt dist-upgrade
+```
+
+:::tip
+
+If a section of the interface displays *"This PiRogue has successfully been contacted but the current pirogue-admin version does not support this feature"*, your PiRogue is not up to date. Upgrade it as described above.
+
+:::
+
+## Log in
+
+The interface asks for a token. Two kinds of tokens are accepted:
+
+* the **administration token**, which gives access to all the features
+* a **user access token**, which only gives access to the features granted to it, see [Create user accesses](#create-user-accesses)
+
+To get the administration token, run this command on your PiRogue:
+
+```shell title="Get the administration token"
+pirogue-admin-client access get-administration-token
+```
+
+Paste the token in the **Token** field and click **Login**. If the token is not valid, the interface displays *"Unable to login. Please try again."*.
+
+## Create user accesses
+
+Sharing the administration token gives full control of the PiRogue. Instead, create a **user access** for each person or tool: it has its own token and a list of permissions, and can be revoked at any time without changing the administration token.
+
+In the **Access** section:
+
+* the **User access list** shows the existing accesses. Click **New** to create one (it has no permission by default) or **Delete** to remove the selected one.
+* **Token** displays the token of the selected access. Click **Regenerate token** to revoke the current one and issue a new one.
+* **Permissions** lists the permissions that can be granted. Select them and click **Apply changes**.
+
+The permissions required by each section are listed in [Admin web interface](/docs/reference/pirogue/admin-web-interface#permissions).
+
+### Create user accesses with the command line
+
+The same operations are available with `pirogue-admin-client`:
+
+```shell title="Manage the user accesses"
+# List, create and delete user accesses
+pirogue-admin-client access list-user-accesses
+pirogue-admin-client access create-user-access
+pirogue-admin-client access get-user-access <idx>
+pirogue-admin-client access delete-user-access <idx>
+
+# Revoke the token of a user access and generate a new one
+pirogue-admin-client access reset-user-access-token <idx>
+
+# Show the access (and permissions) associated with the token in use
+pirogue-admin-client access my-user-access
+```
+
+List the available permissions, then grant or remove them:
+
+```shell title="Manage the permissions of a user access"
+pirogue-admin-client access get-permission-list
+
+# Add all the permissions of the service System
+pirogue-admin-client access set-user-access-permissions -- 8 +System
+
+# Remove one permission
+pirogue-admin-client access set-user-access-permissions -- 8 -System:GetConfiguration
+```
+
+The syntax of the permissions is described in [Permission syntax](/docs/reference/pirogue/admin-web-interface#permission-syntax).
+
+:::caution
+
+Use `--` before the user access index so that a permission starting with `-` is not interpreted as an option.
+
+:::
+
+## Use the interface from the Internet
+
+The administration interface follows the same network rules as the command line tool. To use it from the Internet, [make the PiRogue accessible from the Internet](/docs/how-to/pirogue/configure-pirogue#make-the-pirogue-accessible-from-the-internet) first, then open `https://<your domain name>/admin`.
+
+{/* TODO(verify): confirm the /admin URL and TLS behavior once public access is enabled (pirogue-external-exposure proxies /admin/ to the admin web service on localhost:4242). */}

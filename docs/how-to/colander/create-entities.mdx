@@ -1,0 +1,47 @@
+---
+sidebar_position: 9
+---
+
+
+import CaptionedImage from '@site/src/components/CaptionedImage';
+
+# Create entities
+
+This guide shows the different ways to create entities in a case, and how to add custom attributes to them. Each way offers a different level of detail.
+
+## Create an entity
+
+### From the graph
+Users can create new entities, one at a time, directly from the knowledge graph. 
+
+<CaptionedImage src="/img/colander/entity_management/kg_create_entity.png" alt="Create a new entity within the knowledge graph" caption="Create a new entity within the knowledge graph" align="center"/>
+
+### Several at once, from the Collect workspace
+Users can create new entities, multiple at the same time, directly from the *Collect* workspace. 
+
+<CaptionedImage src="/img/colander/entity_management/quick_collect.png" alt="Quickly create multiple new entities" caption="Quickly create multiple new entities" align="center"/>
+
+### With the entity creation form
+Finally, users can create new entities, one at a time, using the different entity creation forms available in the *Collect* workspace. This way is the one offering the higher level of details.
+
+<CaptionedImage src="/img/colander/entity_management/attributes.png" alt="Create a new entity" caption="Create a new entity" align="center"/>
+
+### With the REST API
+See the [Python client](/docs/reference/colander/rest-api).
+
+## Add custom attributes
+You can add custom attributes to entities of type:
+* Artifact
+* Device
+* Observable
+* Event
+
+Some sub-types such as *IP v4* come with a set of suggested attributes such as *address block* or *asn*.
+
+<CaptionedImage src="/img/colander/entity_management/attributes.png" alt="Overview of an entity having custom attributes" caption="Overview of an entity having custom attributes" align="center"/>
+
+Entities that were imported or enriched from the *Investigate* workspace usually come with additional attributes extracted from external services. 
+
+Entity attributes are exported in feeds along with the all the other information about the entity they belong to.
+
+The available types of entities and their relationships are described in [Entity types](/docs/reference/colander/entity-types).
