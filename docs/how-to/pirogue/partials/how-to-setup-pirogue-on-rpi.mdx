@@ -50,14 +50,6 @@ For a faster booting experience and improved disk write performance, invest in a
 
 In order to connect the PiRogue to the Internet, you should have an ethernet cable connecting your PiRogue to your network. A simple cat. 5 ethernet cable will do the job.
 
-#### Optional hardware
-
-Depending on your needs, you would want to add a hat to your PiRogue and protect everything with a case. See the [hardware reference](/docs/reference/pirogue/hardware) and [Build the PiRogue hardware](/docs/how-to/pirogue/build-the-hardware).
-
-:::tip[Need help?]
-If you don't feel comfortable with building the case or the hat, feel free to buy one by [reaching out to us](https://pts-project.org/contact/).
-:::
-
 
 ### Install PiRogue OS
 
@@ -113,7 +105,7 @@ Please follow the steps outlined in the screenshots below for successful complet
 Once the flashing is complete, eject the SD-card from your computer.
 
 #### Set up the PiRogue
-If you have the hat for your PiRogue, it is the good time for you to plug it in and put everything into the case. Insert your freshly flashed micro SD-card into the PiRogue, plug the ethernet cable to the PiRogue. Remember, this cable connects your PiRogue directly (or through network switch) to your ISP router.
+Insert your freshly flashed micro SD-card into the PiRogue, plug the ethernet cable to the PiRogue. Remember, this cable connects your PiRogue directly (or through network switch) to your ISP router.
 
 
 :::warning[Caution]
@@ -201,12 +193,7 @@ If you want to change the passwords, please refer to the [configuration document
 
 It will take around 4 minutes before network flows start appearing in the dashboard. At the first start of your PiRogue the dashboard will look empty or broken. Don't worry, connect a device to the PiRogue's WiFi network, wait 5 minutes and refresh the dashboard by pressing `F5` key on your keyboard.
 
-Once your PiRogue is running, it will be accessible to you from the network. There are 2 ways to get the IP address of your PiRogue.
-
-The first way is by looking at the screen of the PiRogue Hat.
-<CaptionedImage src="/img/pirogue/pirogue-rpi-guide/screen.webp" alt="The PiRogue's screen" align="center"/>
-
-The second way is to use the ping command. To do so, on your computer connected to the same network as your PiRogue, run the following command:
+Once your PiRogue is running, it is accessible from the network. To get its IP address, run the following command on a computer connected to the same network as your PiRogue:
 ```bash
 ping -c1 pirogue.local
 ```

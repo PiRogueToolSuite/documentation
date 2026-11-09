@@ -15,17 +15,7 @@ On top of Debian, the PiRogue installs a set of established open-source tools fo
 
 ## Integration with Raspberry Pi
 
-PiRogue OS is a tailored version of Debian mainline, a popular Linux distribution known for its stability and reliability. However, the custom HAT (Hardware Attachment on Top) used in PiRogue requires additional configurations to integrate seamlessly with the Linux kernel. To achieve this compatibility, custom Device Tree Blobs (DTBs) and `udev` rules have been developed.
-
-**Device Tree Blobs (DTBs)** are data structures that describe the hardware configuration of a device, providing the kernel with information about its components and their relationships. Custom DTBs for the PiRogue HAT enable the kernel to recognize and properly interact with the HAT's unique hardware components, such as the TFT screen, RTC, and fan control circuitry.
-
-**`Udev` rules**, on the other hand, are configuration files that govern how the Linux kernel handles device events and assigns device permissions. Custom `udev` rules for the PiRogue HAT ensure that the kernel properly detects the HAT's devices, assigns them appropriate permissions, and triggers the necessary actions when events occur.
-
-The definition of the different DTB overlays and `udev` rules can be reviewed on GitHub:
-* [https://github.com/PiRogueToolSuite/deb-packages/tree/debian-12/pirogue-hat/linux/arm64](https://github.com/PiRogueToolSuite/deb-packages/tree/debian-12/pirogue-hat/linux/arm64)
-* [https://github.com/PiRogueToolSuite/deb-packages/tree/debian-12/pirogue-screen-st7789-240x240/linux/arm64](https://github.com/PiRogueToolSuite/deb-packages/tree/debian-12/pirogue-screen-st7789-240x240/linux/arm64)
-
-By implementing custom DTB overlays and `udev` rules, PiRogue OS ensures seamless integration between the Raspberry Pi, the custom HAT, and the Linux kernel. This tailored approach enables the PiRogue to operate smoothly within the Debian environment. The Linux Kernel uses the RTC as a reference of time and takes care synchronizing the system time with the RTC one at its boot if NTP is not available.
+PiRogue OS is a tailored version of Debian mainline, built for the Raspberry Pi. It runs on a bare Raspberry Pi: no add-on board is needed, and the supported models are listed in [Hardware](/docs/reference/pirogue/hardware).
 
 The generation of the operating system image to be flashed on an SD-card is ensured by Packer. It takes the official Debian image and applies changes such as creating a default user and configuring a PPA. The modifications applied to the official Debian image is available on GitHub [https://github.com/PiRogueToolSuite/pirogue-images](https://github.com/PiRogueToolSuite/pirogue-images).
 
@@ -44,7 +34,7 @@ The packages are listed in [Packages](/docs/reference/pirogue/packages).
 
 All PiRogue-specific packages are defined in the GitHub repository [https://github.com/PiRogueToolSuite/deb-packages](https://github.com/PiRogueToolSuite/deb-packages) for Debian 12.
 
-PiRogue Debian packages can be installed on any compatible hardware running Debian 12 (without graphical environment). The package hardware-detection will be taking care of installing the HAT drivers if the installation is done on a Raspberry Pi.
+PiRogue Debian packages can be installed on any compatible hardware running Debian 12 (without graphical environment).
 
 <details>
 <summary>PiRogue packages dependency tree</summary>
