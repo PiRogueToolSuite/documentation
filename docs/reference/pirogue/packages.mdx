@@ -4,9 +4,39 @@ sidebar_position: 9
 
 # Packages
 
-All the features of the PiRogue are Debian 12 packages, published on the [PTS package repository](https://pts-project.org/ppa/) and defined in the [`deb-packages`](https://github.com/PiRogueToolSuite/deb-packages) repository. To understand why, see [Operating system and packaging](/docs/explanation/pirogue/operating-system).
+Every feature of the PiRogue is a Debian package. There is one package repository per PiRogue version:
+
+* PiRogue 3.x runs on Debian 13. Its packages are in the [Debian 13 package repository](https://pts-project.org/debian-13/).
+* PiRogue 2.x runs on Debian 12. Its packages are in the [Debian 12 package repository](https://pts-project.org/debian-12/).
+
+The source of most packages is in the [`deb-packages`](https://github.com/PiRogueToolSuite/deb-packages) repository. To understand why the PiRogue is built this way, see [Operating system and packaging](/docs/explanation/pirogue/operating-system).
 
 ## PiRogue packages
+
+### Packages of PiRogue 3.x
+
+| Package | Version | Description |
+|---------|---------|-------------|
+| `pirogue-base` | 3.0.0 | Meta-package installing all the PiRogue packages |
+| `pirogue-networking` | 3.0.0 | Network setup |
+| `pirogue-admin` | 3.0.0 | Administration tool |
+| `pirogue-admin-client` | 3.0.0 | Administration client, see [Administration](/docs/explanation/pirogue/administration) |
+| `pirogue-admin-web` | 3.0.0 | [Admin web interface](/docs/reference/pirogue/admin-web-interface) |
+| `python3-pirogue-admin-api` | 3.0.0 | API of the administration tool |
+| `pirogue-external-exposure` | 3.0.0 | Exposes remote access and services |
+| `pirogue-dashboard` | 3.0.0 | [Dashboard](/docs/reference/pirogue/dashboard) |
+| `pirogue-maintenance` | 3.0.0 | Daily maintenance, such as the update of the detection rules |
+| `pirogue-tools` | 3.0.0 | Other necessary software, such as Frida |
+| `pirogue-mongoose` | 1.0.6 | Collects, enriches and stores the network data |
+| `pirogue-octopus` | 1.2.0 | Dynamic analysis framework for Android apps |
+| `pirogue-colander-connector` | 1.0.9 | Command line tool to transfer data from the PiRogue to Colander |
+| `pirogue-evidence-collector` | 1.0.5 | Tools to collect digital evidence from mobile devices |
+| `pcapng-utils` | 1.0.9 | Converts PCAPNG files to HAR files |
+| `python3-colander-client` | 1.0.5 | Python client of the Colander REST API |
+| `pirogue-archive-keyring` | 0.2 | Signing keys of the PiRogue package repository |
+| `pirogue-telemetry` | 1.0.1 | [Telemetry](/docs/reference/pirogue/telemetry). Recommended by `pirogue-base`, not required |
+
+### Packages of PiRogue 2.x
 
 | Package | Description |
 |---------|-------------|
@@ -38,7 +68,7 @@ Tools not maintained by the PTS team, packaged for Debian:
 * `python3-communityid`
 * `python3-geoip2`
 * `python3-iosbackup`
-* `python3-mvt`
+* `python3-mvt`, PiRogue 2.x only
 * `python3-nskeyedunarchiver`
 * `python3-nfstream`
 * `frida`

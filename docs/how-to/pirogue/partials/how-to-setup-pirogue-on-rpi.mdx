@@ -12,10 +12,10 @@ First, you need a Raspberry Pi. We support the following versions of Raspberry P
 
 * Raspberry Pi 3 Model B <sup>1</sup>
 * Raspberry Pi 3 Model B+ <sup>1</sup>
-* Raspberry Pi 4 Model B - 1GB <sup>1</sup>
-* Raspberry Pi 4 Model B - 2GB <sup>1</sup>
-* Raspberry Pi 4 Model B - 4GB
-* Raspberry Pi 4 Model B - 8GB
+* Raspberry Pi 4 Model B (1GB) <sup>1</sup>
+* Raspberry Pi 4 Model B (2GB) <sup>1</sup>
+* Raspberry Pi 4 Model B (4GB)
+* Raspberry Pi 4 Model B (8GB)
 * Raspberry Pi 5 **(Experimental Support)** <sup>2</sup>
 
 <small>
@@ -32,7 +32,7 @@ Be sure to have an appropriate power supply for your PiRogue. If you don't know 
 :::danger[Limitations]
 Raspberry Pi devices have slower, more power-efficient processors, limited memory, and limited onboard WiFi throughput compared to conventional computers. These limitations can potentially affect their performance when running demanding tasks. Due to the limited performance of Raspberry Pi devices, we recommend using PiRogue with **up to 2-3 devices connected to the Wi-Fi access point simultaneously**.
 
-Suricata, the Intrusion Detection System (IDS) and network security monitoring engine, requires significant system resources. It needs enough memory to hold rules and process large volumes of network packets. To conserve resources on devices with limited RAM, **Suricata is automatically disabled on systems with less than 2.5GB of RAM**. This limitation is set in the file `/etc/systemd/system/suricata.service.d/override.conf`.
+Suricata, the Intrusion Detection System (IDS) and network security monitoring engine, requires significant system resources. It needs enough memory to hold rules and process large volumes of network packets. To conserve resources on devices with limited RAM, **Suricata is automatically disabled on systems with less than 2.5 GB of RAM**. This limitation is set in the file `/etc/systemd/system/suricata.service.d/override.conf`.
 :::
 
 #### Pick a micro SD-card
@@ -41,8 +41,8 @@ Secondly, you need a SD-card to run your PiRogue. The SD-card has to be large en
 
 You may choose:
 
-* a 32GB micro SD-card for regular use
-* a 64GB micro SD-card if you plan doing long runs, analyzing the traffic of multiple devices simultaneously
+* a 32 GB micro SD-card for regular use
+* a 64 GB micro SD-card if you plan doing long runs, analyzing the traffic of multiple devices simultaneously
 
 For a faster booting experience and improved disk write performance, invest in a high-quality micro SD-card from a reputable brand. Look for one with Application Performance Class 1 (A1) and Speed Class 10.
 

@@ -33,8 +33,7 @@ By default, variables are managed in the following way:
    file, but it's possible to specify a different `token` to make sure we are
    able to deal with any configuration file format.
  - Variable substitutions happen by replacing the token by the variable's value,
-   but it's possible to specify a `type` to use a specific formatter, e.g.
-   `nftables_list_of_networks` or `grafana_re_positive_match_network`. That must
+   but it's possible to specify a `type` to use a specific formatter, for example `nftables_list_of_networks` or `grafana_re_positive_match_network`. That must
    be implemented in the `pirogue-admin` package (see
    `pirogue_admin/package_config/formatters.py`).
 

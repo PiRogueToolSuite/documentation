@@ -1,57 +1,47 @@
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import CaptionedImage from '@site/src/components/CaptionedImage';
 
+You need a machine with **two network interfaces**, running:
 
-You need a machine with **two network interfaces**:
+ - Debian 13, on a physical or virtual machine;
+ - on the `amd64` or `arm64` architecture;
+ - with at least 4 GB of RAM and 40 GB of disk;
+ - with a working internet connection.
 
- - a Debian 12 installation on a physical or virtual machine;
- - using the `amd64` or `arm64` architecture;
- - with at least 4GB of RAM and 40GB of disk;
- - an initial network configuration allowing internet access.
+The second interface decides the operating mode of the PiRogue. If it is a Wi-Fi interface, the PiRogue uses the *access point* mode. If it is an Ethernet interface, it uses the *appliance* mode. See [Operating modes](/docs/explanation/pirogue/operating-modes).
 
-
-The PiRogue uses the *access point* mode if the second interface is a Wi-Fi one, and the *appliance* mode if it is an Ethernet one, see [Operating modes](/docs/explanation/pirogue/operating-modes).
-
-Installation steps can be split into 2 phases: making sure the system is
-up-to-date to start with (this isn't specific to the PiRogue ecosystem), then
-configuring the PiRogue PPA and installing PiRogue packages.
+**1. Update the system.** This step is not specific to the PiRogue:
 
 ```shell {title="Make sure the system is up-to-date"}
 sudo apt-get update
 sudo apt-get dist-upgrade
 ```
 
+**2. Add the PiRogue PPA and install the PiRogue packages:**
+
 ```shell {title="Configure the PiRogue PPA and install PiRogue packages"}
 sudo apt-get install wget
-sudo wget -O /etc/apt/sources.list.d/pirogue.list https://pts-project.org/debian-12/pirogue.list
-sudo wget -O /etc/apt/trusted.gpg.d/pirogue.gpg   https://pts-project.org/debian-12/pirogue.gpg
+sudo wget -O /etc/apt/sources.list.d/pirogue.list https://pts-project.org/debian-13/pirogue.list
+sudo wget -O /etc/apt/trusted.gpg.d/pirogue.gpg   https://pts-project.org/debian-13/pirogue.gpg
 sudo apt-get update
 sudo apt-get install pirogue-base
 ```
 
-During the installation, if prompted, you will have to answer:
+If the installation asks whether non-superusers should be able to capture network traffic, answer `Yes`.
 
-- `Yes` to allow non-superusers to capture network traffic.
+**3. Check the configuration.** You don't need to be `root` for this:
 
-Afterwards, the complete configuration can be inspected using the following
-command (no need to be `root`):
+```shell
+pirogue-admin-client system get-configuration
+```
 
-    pirogue-admin-client system get-configuration
+The most important values are:
 
-Important variables:
+ - `SYSTEM_OPERATING_MODE`: the operating mode of the PiRogue.
+ - `DASHBOARD_PASSWORD`: the password of the dashboard, generated during the installation.
+ - `WIFI_PASSPHRASE`: the passphrase of the Wi-Fi network in *access point* mode, also generated during the installation.
+ - `EXTERNAL_ADDRESS` and `SYSTEM_HOSTNAME`: where the dashboard is exposed.
 
- - `SYSTEM_OPERATING_MODE` confirms the operating mode.
- - `DASHBOARD_PASSWORD` is the password for the dashboard, generated during the install.
- - `WIFI_PASSPHRASE` is the passphrase used for the Wi-Fi network, when
-   operating in “access point” mode, also generated during the install.
- - `EXTERNAL_ADDRESS` and `SYSTEM_HOSTNAME` is where the dashboard is exposed,\
-   it's accessible at **https://`EXTERNAL_ADDRESS`/dashboard**\
-   or **https://`SYSTEM_HOSTNAME`.local/dashboard**.\
-   In both cases, unless you [enable public external access](/docs/how-to/pirogue/configure-pirogue#make-the-pirogue-accessible-from-the-internet), you have to [trust the default self-signed certificate](https://pts-project.org/cookbooks/pirogue-trust-self-signed-certificate/).
+**4. Open the dashboard** at `https://EXTERNAL_ADDRESS/dashboard` or `https://SYSTEM_HOSTNAME.local/dashboard`, replacing the names with the values from the previous step. Unless you [enable public external access](/docs/how-to/pirogue/configure-pirogue#make-the-pirogue-accessible-from-the-internet), you have to [trust the default self-signed certificate](https://pts-project.org/cookbooks/pirogue-trust-self-signed-certificate/) first.
 
-See [Configure a PiRogue](/docs/how-to/pirogue/configure-pirogue) to change those generated secrets.
+To change the generated passwords, see [Configure a PiRogue](/docs/how-to/pirogue/configure-pirogue).
 
-The main difference between “access point” and “appliance” modes is how the
-connectivity is provided on the isolated network (with or without `hostapd` to
-manage the Wi-Fi network).
+The *access point* and *appliance* modes differ in how the isolated network is provided. In *access point* mode, `hostapd` runs the Wi-Fi network. In *appliance* mode, it is not used.

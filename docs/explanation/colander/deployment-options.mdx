@@ -10,7 +10,15 @@ There are two supported ways to do it. Both are maintained in the same repositor
 
 ## The Ansible playbooks
 
-The playbooks take care of the whole life of a production server. Run from your laptop, they install Docker in rootless mode on a fresh Debian server, generate every secret of the configuration and keep it in an encrypted vault, deploy the stack behind a reverse proxy with Let's Encrypt certificates, create the administrator accounts, and install the scripts used to back up and restore the data. The logs of every container go to `journald`, tagged so that tools such as `fail2ban` can use them.
+The playbooks take care of the whole life of a production server. You run them from your laptop, and they:
+
+* install Docker in rootless mode on a fresh Debian server;
+* generate every secret of the configuration and keep it in an encrypted vault;
+* deploy the stack behind a reverse proxy with Let's Encrypt certificates;
+* create the administrator accounts;
+* install the scripts used to back up and restore the data.
+
+The logs of every container go to `journald`, tagged so that tools such as `fail2ban` can use them.
 
 The price is a stricter setup: a dedicated Debian server with a public IP address, a user `colander`, an Ansible environment on your laptop, and a domain name with a DNS record per service.
 

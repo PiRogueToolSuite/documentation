@@ -10,7 +10,7 @@ This guide shows how to upgrade the operating system and the features of a PiRog
 
 If you modified configuration files of the system by hand, copy them before upgrading: the upgrade overrides the files managed by the PiRogue packages.
 
-* **PiRogue 2.x**: upgrades try to keep your configuration, but keep a copy of the files listed in [Configuration files managed by the packages](/docs/reference/pirogue/packages#pirogue-2x) in case an upgrade does not go as planned.
+* **PiRogue 2.x and 3.x**: upgrades try to keep your configuration, but keep a copy of the files listed in [Configuration files managed by the packages](/docs/reference/pirogue/packages#pirogue-2x) in case an upgrade does not go as planned.
 * **PiRogue 1.x**: every file listed in [Configuration files managed by the packages](/docs/reference/pirogue/packages#pirogue-1x) is overwritten. Use `pirogue-ctl` to keep your configuration across upgrades, see [Configure a PiRogue 1.x](/docs/how-to/pirogue/configure-pirogue-1x).
 
 ## Upgrade
@@ -27,3 +27,21 @@ The upgrade can take some time. Reboot the PiRogue afterwards:
 ```bash
 sudo reboot
 ```
+
+## Upgrade from PiRogue 2.x to 3.x
+
+You cannot upgrade a PiRogue 2.x to 3.x with the commands above. They only install updates for the Debian version you already have, and PiRogue 3.x needs a newer Debian version:
+
+* PiRogue 2.x runs on Debian 12.
+* PiRogue 3.x runs on Debian 13.
+
+To move to PiRogue 3.x, you have to reinstall the PiRogue:
+
+1. [Export the data](/docs/how-to/pirogue/export-data) you want to keep.
+2. Copy the files listed in [Back up your customizations](#back-up-your-customizations).
+3. Reinstall the PiRogue:
+   * On a Raspberry Pi, flash the latest [PiRogue OS image](https://github.com/PiRogueToolSuite/pirogue-images/releases/latest) on the SD card. See [Install a PiRogue](/docs/how-to/pirogue/install-pirogue).
+   * On another machine, install a fresh Debian 13, then [install the PiRogue packages](/docs/how-to/pirogue/install-pirogue).
+4. Configure the PiRogue again. See [Configure a PiRogue](/docs/how-to/pirogue/configure-pirogue).
+
+To see everything that changed in 3.x, read [Changes in PiRogue 3.x](/docs/reference/pirogue/changes-in-3x).

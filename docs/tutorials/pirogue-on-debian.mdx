@@ -5,11 +5,11 @@ sidebar_label: Your first PiRogue on Debian
 
 # Your first PiRogue on Debian
 
-In this tutorial, we will turn a fresh Debian 12 machine into a PiRogue, check that it runs, and open its dashboard. It takes about 10 minutes.
+In this tutorial, we will turn a fresh Debian 13 machine into a PiRogue, check that it runs, and open its dashboard. It takes about 10 minutes.
 
 ## What you need
 
-* a machine with a fresh **Debian 12** installation, on `amd64` or `arm64`, with at least 4 GB of RAM, 40 GB of disk and Internet access. It can be a physical machine, a virtual machine or a Raspberry Pi
+* a machine with a fresh **Debian 13** installation, on `amd64` or `arm64`, with at least 4 GB of RAM, 40 GB of disk and Internet access. It can be a physical machine, a virtual machine or a Raspberry Pi
 * a computer from which you can connect to it with SSH
 
 The PiRogue changes the network configuration of the machine, so use one dedicated to this tutorial. A virtual machine with a single network interface is the simplest option: the PiRogue then runs as a VPN server.
@@ -18,12 +18,12 @@ The PiRogue changes the network configuration of the machine, so use one dedicat
 
 Connect to the machine with SSH and run the following commands:
 
-```bash title="Install PiRogue on Debian 12"
+```bash title="Install PiRogue on Debian 13"
 sudo apt-get update
 sudo apt-get dist-upgrade
 sudo apt-get install wget
-sudo wget -O /etc/apt/sources.list.d/pirogue.list https://pts-project.org/debian-12/pirogue.list
-sudo wget -O /etc/apt/trusted.gpg.d/pirogue.gpg   https://pts-project.org/debian-12/pirogue.gpg
+sudo wget -O /etc/apt/sources.list.d/pirogue.list https://pts-project.org/debian-13/pirogue.list
+sudo wget -O /etc/apt/trusted.gpg.d/pirogue.gpg   https://pts-project.org/debian-13/pirogue.gpg
 sudo apt-get update
 sudo apt-get install pirogue-base
 ```

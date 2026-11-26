@@ -17,7 +17,7 @@ The **Traffic Light Protocol** (TLP) employs a color-coded system to classify in
 
 **Permissible Actions Protocol** (PAP) focuses on restricting access to specific individuals, providing a more granular approach to confidentiality:
 * `PAP:RED`: Non-detectable actions only. Recipients may not use PAP:RED information on the network. Only passive actions on logs, that are not detectable from the outside.
-* `PAP:AMBER`: Recipients may use PAP:AMBER information for conducting online checks, like using services provided by third parties (e.g. VirusTotal), or set up a monitoring honeypot.
+* `PAP:AMBER`: Recipients may use PAP:AMBER information for conducting online checks, like using services provided by third parties (for example, VirusTotal), or set up a monitoring honeypot.
 * `PAP:GREEN`: Active actions. Recipients may use PAP:GREEN information to ping the target, block incoming/outgoing traffic from/to the target or specifically configure honeypots to interact with the target.
 * `PAP:CLEAR`: Open, no restrictions
 

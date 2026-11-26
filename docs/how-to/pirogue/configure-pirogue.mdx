@@ -238,11 +238,11 @@ There are two main topologies possible:
 
 ### Administrator's computer setup
 Regardless of the administration network topology, you must install `pirogue-admin-client` on the administrator's computer.
-It can be done by adding our PPA and installing the required packages:
+It can be done by adding our PPA and installing the required packages. The commands below are for Debian 13: on Debian 12, replace `debian-13` with `debian-12` in the URLs.
 ```shell title="Install the administration client on the administrator's computer"
 # Install PiRogue PPA
-sudo wget -O /etc/apt/sources.list.d/pirogue.list https://pts-project.org/debian-12/pirogue.list
-sudo wget -O /etc/apt/trusted.gpg.d/pirogue.gpg   https://pts-project.org/debian-12/pirogue.gpg
+sudo wget -O /etc/apt/sources.list.d/pirogue.list https://pts-project.org/debian-13/pirogue.list
+sudo wget -O /etc/apt/trusted.gpg.d/pirogue.gpg   https://pts-project.org/debian-13/pirogue.gpg
 sudo apt update
 # Install pirogue-admin-client
 sudo apt install pirogue-admin-client

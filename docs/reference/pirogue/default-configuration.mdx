@@ -8,16 +8,21 @@ sidebar_position: 1
 
 The version of a PiRogue is the version of its package `pirogue-base`:
 
-```shell title="PiRogue version 2.0.3 is installed"
+```shell title="PiRogue version 3.0.0 is installed"
 $ dpkg -l | grep pirogue-base
-ii  pirogue-base    2.0.3    all    Install all PiRogue packages
+ii  pirogue-base    3.0.0    all    Install all PiRogue packages
 ```
 
-Versions `>=2.x` changed the dashboard and the Wi-Fi configuration, see [Changes in PiRogue 2.x](/docs/reference/pirogue/changes-in-2x).
+| Version | Debian |
+|---------|--------|
+| 3.x | Debian 13 (Trixie) |
+| 2.x | Debian 12 (Bookworm) |
+
+Versions `>=2.x` changed the dashboard and the Wi-Fi configuration, see [Changes in PiRogue 2.x](/docs/reference/pirogue/changes-in-2x). Versions `>=3.x` moved to Debian 13, see [Changes in PiRogue 3.x](/docs/reference/pirogue/changes-in-3x).
 
 ## Default configuration
 
-| Name | PiRogue 2.x | PiRogue 1.x |
+| Name | PiRogue 2.x and 3.x | PiRogue 1.x |
 |------|-------------|-------------|
 | SSH port | `22` | `22` |
 | SSH user | `pi` | `pi` |

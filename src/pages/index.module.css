@@ -29,8 +29,25 @@
 
 .toolGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
+}
+
+@media screen and (max-width: 996px) {
+  .toolsSection {
+    padding: 2.5rem 0 3rem;
+  }
+
+  .toolGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .toolGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .toolCardWrapper {

@@ -85,8 +85,6 @@ export default function Home() {
                 href="/docs/explanation/threatr/what-is-threatr"
                 logo="/img/logos/threatr.svg"
               />
-            </div>
-            <div className={styles.toolGrid}>
               <ToolCard
                 title="Mandolin"
                 description="File analysis micro-service to extract content, scan with antivirus and apply Yara rules, offline."

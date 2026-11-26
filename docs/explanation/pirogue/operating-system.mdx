@@ -5,7 +5,7 @@ sidebar_position: 8
 
 # Operating system and packaging
 
-The PiRogue runs PiRogueOS, which is based on Debian 12. Debian is a renowned Linux distribution recognized for its stability, reliability, and commitment to open-source principles. It serves as a foundational platform for numerous other distributions and is widely adopted in various industries, including enterprise environments, scientific research, and embedded systems. Debian's trustworthiness stems from its long-standing reputation for quality, its rigorous testing and development processes, and its commitment to open and transparent collaboration.
+The PiRogue runs PiRogue OS, which is based on Debian 13 (Trixie) since PiRogue 3.0. PiRogue 2.x is based on Debian 12 (Bookworm). Debian is a renowned Linux distribution recognized for its stability, reliability, and commitment to open-source principles. It serves as a foundational platform for numerous other distributions and is widely adopted in various industries, including enterprise environments, scientific research, and embedded systems. Debian's trustworthiness stems from its long-standing reputation for quality, its rigorous testing and development processes, and its commitment to open and transparent collaboration.
 
 Debian's stability is attributed to its conservative approach to software updates, ensuring that only thoroughly tested and stable packages are included in its repositories. This emphasis on stability makes Debian a preferred choice for mission-critical systems where reliability is paramount.
 
@@ -24,7 +24,7 @@ PiRogue features can be installed on a Raspberry Pi as well as on a regular comp
 
 ## Packaging for PiRogue
 
-All features and software installed on the PiRogue are packaged for Debian 12. These packages are published on our [PPA](https://pts-project.org/ppa/).
+All features and software installed on the PiRogue are packaged for Debian. The packages of PiRogue 3.x, for Debian 13, are published on the [Debian 13 PPA](https://pts-project.org/debian-13/). The packages of PiRogue 2.x, for Debian 12, stay available on the [Debian 12 PPA](https://pts-project.org/debian-12/).
 
 A Personal Package Archive (PPA) serves as a repository for software packages maintained by individuals or teams outside of the official Debian distribution. It allows developers to distribute and update their software independently, providing users with access to newer versions or packages not yet included in Debian's main repositories. PPAs offer a convenient way to access other software but require cautious use as they may not undergo the same rigorous testing as official Debian packages.
 
@@ -32,9 +32,9 @@ PTS’s PPAs contain both PiRogue-specific tools as well as external tools that 
 
 The packages are listed in [Packages](/docs/reference/pirogue/packages).
 
-All PiRogue-specific packages are defined in the GitHub repository [https://github.com/PiRogueToolSuite/deb-packages](https://github.com/PiRogueToolSuite/deb-packages) for Debian 12.
+All PiRogue-specific packages are defined in the GitHub repository [https://github.com/PiRogueToolSuite/deb-packages](https://github.com/PiRogueToolSuite/deb-packages) for Debian 13, on the branch `debian-13`.
 
-PiRogue Debian packages can be installed on any compatible hardware running Debian 12 (without graphical environment).
+PiRogue Debian packages can be installed on any compatible hardware running Debian 13 (without graphical environment).
 
 <details>
 <summary>PiRogue packages dependency tree</summary>

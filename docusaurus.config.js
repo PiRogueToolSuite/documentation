@@ -200,7 +200,7 @@ const config = {
         {name: 'keywords', content: 'PiRogue, PTS, mobile forensics, threat analysis, network analysis, Raspberry Pi, spyware, human rights, digital security'},
         {property: 'og:type', content: 'website'},
         {property: 'og:site_name', content: 'PiRogue Tool Suite'},
-        {property: 'og:image:alt', content: 'PiRogue Tool Suite - digital investigation platform'},
+        {property: 'og:image:alt', content: 'PiRogue Tool Suite, a digital investigation platform'},
         {property: 'og:image:width', content: '1200'},
         {property: 'og:image:height', content: '630'},
         {name: 'twitter:card', content: 'summary_large_image'},

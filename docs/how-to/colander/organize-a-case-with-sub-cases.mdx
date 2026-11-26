@@ -1,0 +1,33 @@
+---
+sidebar_position: 20
+---
+
+# Organize a large investigation with sub-cases
+
+This guide shows how to split a large investigation into sub-cases attached to a parent case. Each sub-case is a regular case, with its own entities, artifacts and graph. To understand how Colander organizes investigations, see [Case management](/docs/explanation/colander/case-management).
+
+## Rules
+
+* A case has at most one parent case.
+* A parent case cannot itself be a sub-case. The hierarchy has a single level.
+* Only the owner of a case can attach it to a parent case, and only to one of their own cases.
+
+## Attach a case to a parent case
+
+1. Open the case list and edit the case to attach, or start creating a new case.
+2. In **Parent case**, select the parent case. The list only contains your cases that are not sub-cases themselves.
+3. Save the case.
+
+The case selector and the case list now display the sub-case under its parent case.
+
+## Detach a sub-case
+
+1. Edit the sub-case.
+2. Empty **Parent case**.
+3. Save the case.
+
+:::danger[Deleting a parent case]
+
+Deleting a parent case also deletes all its sub-cases and their content. Detach the sub-cases you want to keep first.
+
+:::

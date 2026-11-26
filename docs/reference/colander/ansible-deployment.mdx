@@ -18,7 +18,7 @@ Run them from the `colander-ansible` folder: `ansible-playbook -i production.yml
 | `configure-colander.yml` | Configures Colander on the server. |
 | `deploy-colander.yml` | Deploys the stack and creates the administrator accounts. |
 | `backup-colander.yml` | Creates a backup on the server. |
-| `restart-colander.yml` | Restarts Colander. |
+| `sanity-checks.yml` | Checks that the DNS records of the services exist. The deployment playbooks run the same checks first. |
 | `teardown-colander.yml` | Permanently deletes Colander, its data, its backups and its configuration. |
 
 ## Inventory file
@@ -145,7 +145,8 @@ An `A` record pointing to the public IP address of the server is required for ea
 
 | Path | Content |
 |------|---------|
-| `/home/colander/colander` | Installation folder, with the Docker Compose file of the stack |
+| `/home/colander/colander` | Installation folder |
+| `/home/colander/colander/docker-compose.yml` | Docker Compose file of the stack |
 | `/home/colander/colander/volumes` | Docker volumes |
 | `/home/colander/colander/backups` | Backups, one folder per backup |
 | `/home/colander/colander/scripts/backup` | Backup script |

@@ -12,16 +12,25 @@ The PiRogue runs on a bare Raspberry Pi. No add-on board (HAT) or custom case is
 |-------|---------|
 | Raspberry Pi 3 Model B | Supported, with limited services <sup>1</sup> |
 | Raspberry Pi 3 Model B+ | Supported, with limited services <sup>1</sup> |
-| Raspberry Pi 4 Model B - 1GB | Supported, with limited services <sup>1</sup> |
-| Raspberry Pi 4 Model B - 2GB | Supported, with limited services <sup>1</sup> |
-| Raspberry Pi 4 Model B - 4GB | Supported |
-| Raspberry Pi 4 Model B - 8GB | Supported |
+| Raspberry Pi 4 Model B (1GB) | Supported, with limited services <sup>1</sup> |
+| Raspberry Pi 4 Model B (2GB) | Supported, with limited services <sup>1</sup> |
+| Raspberry Pi 4 Model B (4GB) | Supported |
+| Raspberry Pi 4 Model B (8GB) | Supported |
 | Raspberry Pi 5 | Experimental <sup>2</sup> |
 
 <small>
-<sup>1</sup> Suricata is automatically disabled on systems with less than 2.5GB of RAM.<br/>
-<sup>2</sup> Download the experimental PiRogue OS version for Raspberry Pi 5 from the download page.
+<sup>1</sup> Suricata is automatically disabled on systems with less than 2.5 GB of RAM.<br/>
+<sup>2</sup> Download the experimental PiRogue OS image for Raspberry Pi 5 from the [releases page](https://github.com/PiRogueToolSuite/pirogue-images/releases/latest).
 </small>
+
+## PiRogue OS images
+
+PiRogue OS 3.0.0, based on Debian 13, is published as the release [`arm64_v3.0.0`](https://github.com/PiRogueToolSuite/pirogue-images/releases/tag/arm64_v3.0.0):
+
+* the official image, for the Raspberry Pi 3 and 4
+* the experimental image, for the Raspberry Pi 5
+
+The PiRogue also runs on other `amd64` or `arm64` machines with Debian 13, without any image, see [Install a PiRogue](/docs/how-to/pirogue/install-pirogue).
 
 ## Required parts
 
@@ -29,7 +38,7 @@ The PiRogue runs on a bare Raspberry Pi. No add-on board (HAT) or custom case is
 |------|---------------|
 | Raspberry Pi | One of the [supported models](#supported-raspberry-pi-models) |
 | Power supply | Appropriate for the model, such as the official Raspberry Pi power supply |
-| Micro SD-card | 32GB for regular use, 64GB for long runs or several devices. Application Performance Class 1 (A1) and Speed Class 10 recommended |
+| Micro SD-card | 32 GB for regular use, 64 GB for long runs or several devices. Application Performance Class 1 (A1) and Speed Class 10 recommended |
 | Ethernet cable | Cat. 5 or better, to connect the PiRogue to your network |
 
 ## Performance limits

@@ -1,5 +1,5 @@
 
-In this setup, the PiRogue is a server with a single interface exposed on the Internet, typically a dedicated server or a VPS, and the analyzed devices connect to it with a VPN.
+In this setup, the PiRogue is a server with a single network interface exposed on the internet, typically a dedicated server or a VPS. The devices you analyze connect to it through a VPN.
 
 
 :::tip[Hosting providers compatibility]
@@ -10,67 +10,58 @@ In this setup, the PiRogue is a server with a single interface exposed on the In
 
 :::
 
-The requirements are the same as in the previous section:
+You need a server running:
 
- - a Debian 12 installation on a physical or virtual machine;
- - using the `amd64` or `arm64` architecture;
- - with at least 4GB of RAM and 40GB of disk;
- - an initial network configuration allowing internet access.
+ - Debian 13, on a physical or virtual machine;
+ - on the `amd64` or `arm64` architecture;
+ - with at least 4 GB of RAM and 40 GB of disk;
+ - with a working internet connection.
 
-With such a configuration, VPN is automatically selected as the operating mode,
-and WireGuard is set up automatically.
+You also need:
 
-The initial installation steps are the same as in the previous section:
+ - a DNS record pointing to the public IP address of the server;
+ - ports `80` and `443` of the public IP address forwarded to the same ports of the server.
+
+With a single network interface, the PiRogue selects the *VPN* mode and sets up WireGuard automatically.
+
+**1. Update the system.** This step is not specific to the PiRogue:
 
 ```shell {title="Make sure the system is up-to-date"}
 sudo apt-get update
 sudo apt-get dist-upgrade
 ```
 
+**2. Add the PiRogue PPA and install the PiRogue packages:**
+
 ```shell {title="Configure the PiRogue PPA and install PiRogue packages"}
 sudo apt-get install wget
-sudo wget -O /etc/apt/sources.list.d/pirogue.list https://pts-project.org/debian-12/pirogue.list
-sudo wget -O /etc/apt/trusted.gpg.d/pirogue.gpg   https://pts-project.org/debian-12/pirogue.gpg
+sudo wget -O /etc/apt/sources.list.d/pirogue.list https://pts-project.org/debian-13/pirogue.list
+sudo wget -O /etc/apt/trusted.gpg.d/pirogue.gpg   https://pts-project.org/debian-13/pirogue.gpg
 sudo apt-get update
 sudo apt-get install pirogue-base
 ```
 
-During the installation, if prompted, you will have to answer:
+If the installation asks whether non-superusers should be able to capture network traffic, answer `Yes`.
 
-- `Yes` to allow non-superusers to capture network traffic.
-
-Afterwards, the complete configuration can be inspected using the following
-command (no need to be `root`):
+**3. Check the configuration.** You don't need to be `root` for this:
 
 ```shell
 pirogue-admin-client system get-configuration
 ```
 
-There are two big differences though:
-
- 1. Since the server is accessible from the internet, we want to secure the
-    dashboard access with a TLS layer.
- 2. We need to create WireGuard peers, and configure the VPN on e.g. phones to be
-    analyzed.
-
-Here, we assume:
- * a DNS record exists already, pointing to the public IP address of the
-PiRogue.
- * port `80` and `443` from your public IP address fully translate to your PiRogue respective ports
-
-Requesting a certificate and adjusting the web server configuration can
-be done this way:
+**4. Secure the dashboard with a TLS certificate.** The server is reachable from the internet, so the dashboard must use HTTPS. Replace the domain and the email address with your own:
 
 ```shell
 pirogue-admin-client external-network enable-public-access --domain pirogue.example.org --email contact@example.org
 ```
 
-The dashboard is available at `https://pirogue.example.org/dashboard` afterwards.
+The dashboard is then available at `https://pirogue.example.org/dashboard`.
 
-To create a VPN peer, run the following commands, then scan the QR code using
-the WireGuard application on the phone, and enable the VPN:
+**5. Connect a device to the VPN.** Create a VPN peer and display its configuration as a QR code:
 
 ```shell
 pirogue-admin-client vpn add-peer
 pirogue-admin-client vpn get-peer-config 2 | qrencode -t ANSIUTF8
 ```
+
+On the phone to analyze, scan the QR code with the WireGuard app, then enable the VPN.

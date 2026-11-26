@@ -44,8 +44,8 @@ A backup is only valid for the configuration it was created with. Never mix back
    /home/colander/colander/scripts/restore "2025_02_18-13_47_01"
    ```
 
-3. Restart Colander:
+3. On your server, restart the whole stack:
 
-   ```shell title="💻 Restart Colander"
-   ansible-playbook -J -K -i production.yml playbooks/restart-colander.yml
+   ```shell title="📦 Restart Colander"
+   docker compose -f /home/colander/colander/docker-compose.yml restart
    ```

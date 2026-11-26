@@ -19,10 +19,10 @@ as required, which was done through `postinst` scripts.
 In 2024, we started a project codenamed “ViRogue”, which is about virtualizing
 the PiRogue and supporting more use cases. That means no longer relying on
 Raspberry Pi devices, and being able to deploy the PiRogue operating system on
-any `amd64` or `arm64` machine in *appliance* mode (e.g. using two Ethernet
+any `amd64` or `arm64` machine in *appliance* mode (for example, using two Ethernet
 interfaces) or even in a virtual machine in *VPN* mode. Of course, the
-historical *access point* mode remains a possibility, e.g. on Raspberry Pi
-devices or on laptops for example.
+historical *access point* mode remains a possibility, for example on Raspberry Pi
+devices or on laptops.
 
 Supporting more use cases meant having some logic and heuristics to help users
 pick a configuration that should work out of the box based on the detected
@@ -92,7 +92,7 @@ peers, and make their configuration available as configuration files,
 configuration archives, or QR codes.
 
 **Note:** If the autodetected configuration doesn't fit (maybe there were
-several interfaces to choose from; maybe some of them come and go, e.g. USB
+several interfaces to choose from; maybe some of them come and go, for example USB
 adapters, tethering), updating the configuration might require cleaning up the
 previous one. That's tracked as
 [pirogue-admin#7](https://github.com/PiRogueToolSuite/pirogue-admin/issues/7).
@@ -199,7 +199,7 @@ Since we also want users to be able to deploy the PiRogue operating system on
 any `amd64` or `arm64` machine running Debian 12, it made sense to perform a few
 installations, with different components selected on Debian Installer's
 `tasksel` screen. We could have insisted on performing a text-only installation,
-but it would be best if users were able to deploy PiRogue tools e.g. on their
+but it would be best if users were able to deploy PiRogue tools on their own
 laptops.
 
 

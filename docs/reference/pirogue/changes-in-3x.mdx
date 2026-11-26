@@ -1,0 +1,40 @@
+---
+sidebar_position: 13
+---
+
+# Changes in PiRogue 3.x
+
+Changes between PiRogue 2.x and PiRogue 3.x. To check the version of a PiRogue, see [Default configuration](/docs/reference/pirogue/default-configuration#version). To move a PiRogue to 3.x, see [Upgrade a PiRogue](/docs/how-to/pirogue/upgrade-pirogue#upgrade-from-pirogue-2x-to-3x).
+
+## Operating system
+
+| | PiRogue 2.x | PiRogue 3.x |
+|---|-------------|-------------|
+| Debian | 12 (Bookworm) | 13 (Trixie) |
+| Python | 3.11 | 3.13 |
+| Package repository | `https://pts-project.org/debian-12/` | `https://pts-project.org/debian-13/` |
+| Raspberry Pi images | | Release [`arm64_v3.0.0`](https://github.com/PiRogueToolSuite/pirogue-images/releases/tag/arm64_v3.0.0) |
+
+The signing key of the package repository was renewed for the new signature checks of APT in Debian 13. The keyring `pirogue.gpg` is available in both repositories and is shipped by the package `pirogue-archive-keyring`.
+
+## Packages
+
+* All the PiRogue packages are versioned `3.x`. See [Packages](/docs/reference/pirogue/packages#packages-of-pirogue-3x).
+* The PiRogue HAT and its screen are no longer supported. The packages `pirogue-hat`, `pirogue-screen-st7789-240x240` and `pirogue-hardware-detection` are gone.
+* `mitmproxy` and the Mobile Verification Toolkit (MVT) are no longer packaged. To use MVT, install it by following the [MVT installation instructions](https://docs.mvt.re/en/latest/install/).
+* NFStream is updated to version 6.6.0.
+* Frida is updated to version 17.17.0.
+
+## Dashboard
+
+`pirogue-dashboard` 3.0.0 ships the redesigned dashboard, which improves its accessibility and usability. The same dashboard is available on PiRogue 2.x from `pirogue-dashboard` 2.0.3.
+
+## Supported setups
+
+PiRogue 3.0.0 was validated on:
+
+* a Raspberry Pi 4, with the official image, in *access point* mode
+* a Raspberry Pi 5, with the experimental image, in *access point* mode
+* a virtual private server, in *VPN* mode
+
+The experimental Raspberry Pi 5 image uses Debian packages only, and no longer depends on packages of Raspberry Pi OS. It pins a Linux kernel from `trixie-backports` that is known to boot, until a [kernel regression](https://github.com/PiRogueToolSuite/pirogue-images/issues/9) is solved.
