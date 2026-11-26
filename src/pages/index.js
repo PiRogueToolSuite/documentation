@@ -33,7 +33,7 @@ function HomepageHeader() {
   );
 }
 
-function ToolCard({title, description, href, logo}) {
+function ToolCard({title, description, href, startHref, logo}) {
   return (
     <div className={styles.toolCardWrapper}>
       <div className={clsx('card', styles.toolCard)}>
@@ -46,7 +46,10 @@ function ToolCard({title, description, href, logo}) {
         <div className="card__body">
           <p>{description}</p>
         </div>
-        <div className="card__footer">
+        <div className={clsx('card__footer', styles.toolCardButtons)}>
+          <Link className="button button--secondary button--sm" to={startHref}>
+            Get started
+          </Link>
           <Link className="button button--primary button--sm" to={href}>
             View docs →
           </Link>
@@ -71,36 +74,42 @@ export default function Home() {
                 title="PiRogue"
                 description="Network router for capturing and analysing mobile device traffic in real-time."
                 href="/docs/explanation/pirogue/what-is-a-pirogue"
+                startHref="/docs/tutorials/pirogue-on-a-raspberry-pi"
                 logo="/img/logos/pirogue.svg"
               />
               <ToolCard
                 title="Colander"
                 description="Case and digital investigation platform to manage evidence, knowledge, and team collaboration."
                 href="/docs/explanation/colander/what-is-colander"
+                startHref="/docs/tutorials/colander-on-your-computer"
                 logo="/img/logos/colander.svg"
               />
               <ToolCard
                 title="Threatr"
                 description="Threat intelligence platform powering Colander's external source lookups via VirusTotal, OTX, and more."
                 href="/docs/explanation/threatr/what-is-threatr"
+                startHref="/docs/tutorials/threatr-on-your-computer"
                 logo="/img/logos/threatr.svg"
               />
               <ToolCard
                 title="Mandolin"
                 description="File analysis micro-service to extract content, scan with antivirus and apply Yara rules, offline."
                 href="/docs/explanation/mandolin/what-is-mandolin"
+                startHref="/docs/tutorials/mandolin-on-your-computer"
                 logo="/img/logos/mandolin-logo.svg"
               />
               <ToolCard
                 title="Octopus"
                 description="Dynamic analysis framework for Android apps: instrument apps, capture traffic and decrypt TLS."
                 href="https://pts-project.org/octopus/"
+                startHref="https://pts-project.org/octopus/#installation"
                 logo="/img/logos/octopus-logo.svg"
               />
               <ToolCard
                 title="Mongoose"
                 description="Collect, enrich, store and forward Suricata alerts and network flows."
                 href="https://pts-project.org/mongoose/"
+                startHref="https://pts-project.org/mongoose/#installation"
                 logo="/img/logos/mongoose-logo.svg"
               />
             </div>
